@@ -116,7 +116,13 @@ class ActorCriticShielded(nn.Module):
                 base_actions = torch.tensor(base_actions, dtype=torch.float32).to(self.get_device())
 
             # print(base_actions, sensor_values)
+            # try:
             actions = self.get_shielded_policy_batch_agnostic(base_actions, sensor_values)
+            # except AssertionError:
+            #     print("[MylarPPO] Error in computing shielded policy:")
+            #     print("base_actions:", base_actions)
+            #     print("sensor_values:", sensor_values)
+            #     actions = base_actions  # fallback to base actions
             shielded_policy = Categorical(probs=actions)
 
             # get the most probable action of the shielded policy if we want to use a deterministic policy,

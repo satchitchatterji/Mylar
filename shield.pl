@@ -17,10 +17,10 @@ hazard(left) :- sensor(hazard_left).
 
 % KB:
 % If there is a hazard in direction X, then action X is bad.
-% bad_act :- action(A), hazard(X).
+bad_act :- action(A), hazard(X).
 
-% unsafe_next :- \+bad_act. % forces the agent to take bad actions
+unsafe_next :- \+bad_act. % forces the agent to take bad actions
 
-unsafe_next :- action(left), \+sensor(hazard_left).
+% unsafe_next :- action(left), \+sensor(hazard_left).
 
 safe_next :- \+unsafe_next.

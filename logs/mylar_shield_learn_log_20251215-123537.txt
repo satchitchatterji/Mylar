@@ -1,0 +1,81 @@
+[MylarShield] Extracted 4 actions and 4 sensors from old shield.
+[MylarShield] Generated ProbFOIL program (to learn from) from logs.
+[MylarShield] Length of ProbFOIL program: 1748 lines
+[MylarShield] Max safety cost in batch: 0.0
+[MylarShield] Min safety cost in batch: 0.0
+[MylarShield] Mean safety cost in batch: 0.0
+[MylarShield] No unsafe examples in batch, skipping ProbFOIL update.
+[MylarShield] Extracted 4 actions and 4 sensors from old shield.
+[MylarShield] Generated ProbFOIL program (to learn from) from logs.
+[MylarShield] Length of ProbFOIL program: 3115 lines
+[MylarShield] Max safety cost in batch: 1.0
+[MylarShield] Min safety cost in batch: 0.0
+[MylarShield] Mean safety cost in batch: 0.205
+[MylarShield] Learned ProbFOIL clauses:
+[unsafe_next(A) :- act_left(A)]
+[MylarShield] Learned shield unsafe_next clauses:
+unsafe_next :- action(left).
+[MylarShield] Generated new shield program.
+--------------------------------------------------
+% actions
+action(0)::action(left);
+action(1)::action(right);
+action(2)::action(front);
+action(3)::action(back).
+
+% sensors (4 lidar values for hazards and 4 for vases)
+sensor_value(0)::sensor(hazard_front).
+sensor_value(1)::sensor(hazard_right).
+sensor_value(2)::sensor(hazard_back).
+sensor_value(3)::sensor(hazard_left).
+
+hazard(front) :- sensor(hazard_front).
+hazard(right) :- sensor(hazard_right).
+hazard(back) :- sensor(hazard_back).
+hazard(left) :- sensor(hazard_left).
+
+% KB:
+unsafe_next :- action(left).
+
+safe_next :- \+unsafe_next.
+
+--------------------------------------------------
+[MylarShield] Extracted 4 actions and 4 sensors from old shield.
+[MylarShield] Generated ProbFOIL program (to learn from) from logs.
+[MylarShield] Length of ProbFOIL program: 3748 lines
+[MylarShield] Max safety cost in batch: 1.0
+[MylarShield] Min safety cost in batch: 0.0
+[MylarShield] Mean safety cost in batch: 0.367
+[MylarShield] Learned ProbFOIL clauses:
+[unsafe_next(A) :- \+hazard_right(A), unsafe_next(A) :- \+hazard_front(A), unsafe_next(A) :- \+hazard_back(A)]
+[MylarShield] Learned shield unsafe_next clauses:
+unsafe_next :- \+hazard(right).
+unsafe_next :- \+hazard(front).
+unsafe_next :- \+hazard(back).
+[MylarShield] Generated new shield program.
+--------------------------------------------------
+% actions
+action(0)::action(left);
+action(1)::action(right);
+action(2)::action(front);
+action(3)::action(back).
+
+% sensors (4 lidar values for hazards and 4 for vases)
+sensor_value(0)::sensor(hazard_front).
+sensor_value(1)::sensor(hazard_right).
+sensor_value(2)::sensor(hazard_back).
+sensor_value(3)::sensor(hazard_left).
+
+hazard(front) :- sensor(hazard_front).
+hazard(right) :- sensor(hazard_right).
+hazard(back) :- sensor(hazard_back).
+hazard(left) :- sensor(hazard_left).
+
+% KB:
+unsafe_next :- \+hazard(right).
+unsafe_next :- \+hazard(front).
+unsafe_next :- \+hazard(back).
+
+safe_next :- \+unsafe_next.
+
+--------------------------------------------------

@@ -15,10 +15,16 @@ class MylarShield:
         self.NEG_KEEP_PROB = 0.3 # probability to keep zero-cost examples
         self.SENSOR_THRESHOLD = 0.1 # threshold to consider sensor "active"
         cur_time = time.strftime("%Y%m%d-%H%M%S")
-        self.log_filename = f"mylar_shield_learn_log_{cur_time}.txt"
+        self.log_filename = f"logs/mylar_shield_learn_log_{cur_time}.txt"
         self.log_file = open(self.log_filename, 'a') if log else None
         if log:
-            print(f"[MylarShield] Logging to {self.log_filename}", file=self.log_file)
+            print(f"[MylarShield] Logging to {self.log_filename}")
+
+    def log(self, *args):
+        msg = " ".join([str(a) for a in args])
+        print(msg)
+        if self.log_file is not None:
+            self.log_file.write(msg + "\n")
 
     def _extract_actions_and_sensors_from_shield(self, old_shield):
         """
@@ -342,41 +348,41 @@ class MylarShield:
         # 1) Get actions/sensors + preamble
         actions, sensors, preamble = self._extract_actions_and_sensors_from_shield(old_shield)
 
-        print(f"[MylarShield] Extracted {len(actions)} actions and {len(sensors)} sensors from old shield.", file=self.log_file)
-        # print("Actions:", actions)
-        # print("Sensors:", sensors)
+        self.log(f"[MylarShield] Extracted {len(actions)} actions and {len(sensors)} sensors from old shield.")
+        # self.log("Actions:", actions)
+        # self.log("Sensors:", sensors)
 
         # 2) Build ProbFOIL input
         probfoil_program = self.convert_str_log_to_pl(sensors, actions, log_dict)
-        print("[MylarShield] Generated ProbFOIL program (to learn from) from logs.", file=self.log_file)
-        print("[MylarShield] Length of ProbFOIL program:", probfoil_program.count('\n'), "lines", file=self.log_file)
+        self.log("[MylarShield] Generated ProbFOIL program (to learn from) from logs.")
+        self.log("[MylarShield] Length of ProbFOIL program:", probfoil_program.count('\n'), "lines")
 
-        # print(probfoil_program[:500])
+        # self.log(probfoil_program[:500])
 
         # Check if there are any unsafe examples to learn from
         costs = [float(v["safety cost"]) for v in log_dict.values()]
-        print("[MylarShield] Max safety cost in batch:", max(costs), file=self.log_file)
-        print("[MylarShield] Min safety cost in batch:", min(costs), file=self.log_file)
-        # print(costs)
-        print("[MylarShield] Mean safety cost in batch:", np.mean(costs), file=self.log_file)
+        self.log("[MylarShield] Max safety cost in batch:", max(costs))
+        self.log("[MylarShield] Min safety cost in batch:", min(costs))
+        # self.log(costs)
+        self.log("[MylarShield] Mean safety cost in batch:", np.mean(costs))
         max_cost = max(costs) if costs else 0.0
         if max_cost <= 0.0:
             # nothing unsafe in this batch -> keep old shield
-            print("[MylarShield] No unsafe examples in batch, skipping ProbFOIL update.", file=self.log_file)
+            self.log("[MylarShield] No unsafe examples in batch, skipping ProbFOIL update.")
             return old_shield
 
         # 3) Learn clauses with ProbFOIL
         learned_clauses = self.learn_probfoil(probfoil_program)  # <- you provide this
-        print("[MylarShield] Learned ProbFOIL clauses:", file=self.log_file)
-        print(learned_clauses if len(learned_clauses) else "(none)", file=self.log_file)
+        self.log("[MylarShield] Learned ProbFOIL clauses:")
+        self.log(learned_clauses if len(learned_clauses) else "(none)")
 
         # 4) Compile to shield-style clauses
         shield_unsafe_clauses = self._compile_probfoil_clauses_to_shield(learned_clauses)
-        print("[MylarShield] Learned shield unsafe_next clauses:", file=self.log_file)
-        print(shield_unsafe_clauses if shield_unsafe_clauses.strip() else "(none)", file=self.log_file)
+        self.log("[MylarShield] Learned shield unsafe_next clauses:")
+        self.log(shield_unsafe_clauses if shield_unsafe_clauses.strip() else "(none)")
         normalized = " ".join(shield_unsafe_clauses.lower().split())
         if "unsafe_next :- true." in normalized:
-            print("[MylarShield] ProbFOIL returned 'always unsafe'; keeping old shield.", file=self.log_file)
+            self.log("[MylarShield] ProbFOIL returned 'always unsafe'; keeping old shield.")
             return old_shield
 
         # 5) Assemble final shield
@@ -394,7 +400,13 @@ class MylarShield:
         parts.append("safe_next :- \\+unsafe_next.")
         parts.append("")
 
+        self.log("[MylarShield] Generated new shield program.")
+        self.log("--------------------------------------------------")
+        self.log("\n".join(parts))
+        self.log("--------------------------------------------------")
+
         return "\n".join(parts)
+
 
 
 # def parse_log_string(raw_data: str):
@@ -452,4 +464,4 @@ if __name__ == "__main__":
 
     shield_maker = MylarShield(normalization_fn=normalize_reward_to_norm)
     new_shield_str = shield_maker.generate_new_shield(old_shield_str, example_data)
-    print(new_shield_str)
+    Self.log(new_shield_str)
