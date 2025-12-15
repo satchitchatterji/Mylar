@@ -70,7 +70,6 @@ class MylarShield:
         preamble = decl_block.rstrip() + "\n"
         return actions, sensors, preamble
 
-
     def convert_str_log_to_pl(
         self,
         sensors: List[str],
@@ -78,13 +77,13 @@ class MylarShield:
         log_dict: Dict[Any, Dict[str, Any]],
     ) -> str:
         """
-        Convert log_dict into a ProbFOIL program (settings + data) using
-        low-level directional hazard/vase predicates and an example-indexed action:
+        Convert log_dict into a ProbFOIL program (settings + data) using unary
+        predicates per direction/action:
 
-            hazard(E, Dir).       % hazard lidar active in direction Dir
-            vase(E, Dir).         % vase lidar active in direction Dir
-            action(E, Dir).       % chosen action direction
-            unsafe_next(E).       % probabilistic label from safety cost
+            act_<dir>(E).          % chosen action direction at example E
+            hazard_<dir>(E).       % hazard lidar active in direction <dir> at E
+            vase_<dir>(E).         % vase lidar active in direction <dir> at E
+            unsafe_next(E).        % probabilistic label from safety cost
 
         Expected log_dict format:
             log_dict[time_step] = {
@@ -98,23 +97,17 @@ class MylarShield:
             "vase_front","vase_right","vase_back","vase_left"]
         """
 
-        # Figure out which sensor indices correspond to hazard_*, vase_*
-        hazard_indices = []  # list of (idx, dir_name)
-        vase_indices = []    # list of (idx, dir_name)
+        # Identify which sensor indices correspond to hazard_* and vase_* predicates
+        hazard_sensors: List[Tuple[int, str]] = []  # (idx, 'hazard_front')
+        vase_sensors: List[Tuple[int, str]] = []    # (idx, 'vase_left')
 
         for idx, name in enumerate(sensors):
-            m_h = re.match(r"hazard_(\w+)", name)
-            if m_h:
-                dir_name = m_h.group(1)
-                hazard_indices.append((idx, dir_name))
-                continue
+            if re.match(r"^hazard_\w+$", name):
+                hazard_sensors.append((idx, name))
+            elif re.match(r"^vase_\w+$", name):
+                vase_sensors.append((idx, name))
 
-            m_v = re.match(r"vase_(\w+)", name)
-            if m_v:
-                dir_name = m_v.group(1)
-                vase_indices.append((idx, dir_name))
-                continue
-
+        # ---- SETTINGS ----
         lines: List[str] = []
         lines += [
             "%%%%%%%%%%%% SETTINGS %%%%%%%%%%%%",
@@ -122,14 +115,37 @@ class MylarShield:
             "learn(unsafe_next/1).",
             "",
             "% allowed rule components",
-            "mode(action(+,-)).",      # action(E, X): X is a new direction variable
-            "mode(hazard(+,+)).",      # hazard(E, X): uses existing E and X
-            "mode(vase(+,+)).",        # vase(E, X): optional extra feature
+        ]
+
+        # One mode per action direction: act_left(+), act_right(+), ...
+        for act_name in actions:
+            # guard in case action names aren't valid atoms (very defensive)
+            safe_act = re.sub(r"[^a-zA-Z0-9_]", "_", act_name)
+            lines.append(f"mode(act_{safe_act}(+)).")
+
+        # One mode per hazard direction: hazard_front(+), etc.
+        for _, sensor_name in hazard_sensors:
+            lines.append(f"mode({sensor_name}(+)).")
+
+        # One mode per vase direction: vase_front(+), etc. (optional, but useful)
+        for _, sensor_name in vase_sensors:
+            lines.append(f"mode({sensor_name}(+)).")
+
+        lines += [
             "",
             "% type declarations",
-            "base(action(example,direction)).",
-            "base(hazard(example,direction)).",
-            "base(vase(example,direction)).",
+        ]
+
+        # One base per action direction
+        for act_name in actions:
+            safe_act = re.sub(r"[^a-zA-Z0-9_]", "_", act_name)
+            lines.append(f"base(act_{safe_act}(example)).")
+
+        # One base per hazard/vase sensor
+        for _, sensor_name in hazard_sensors + vase_sensors:
+            lines.append(f"base({sensor_name}(example)).")
+
+        lines += [
             "base(unsafe_next(example)).",
             "",
             "example_mode(labeled).",
@@ -137,6 +153,8 @@ class MylarShield:
             "%%%%%%%%%%%% DATA %%%%%%%%%%%%",
             "",
         ]
+
+        # ---- DATA ----
 
         # Deterministic order over time steps
         def _sort_key(x):
@@ -170,19 +188,19 @@ class MylarShield:
                     f"got {len(sensor_vals)}, expected {len(sensors)}"
                 )
 
-            # Emit hazard(E, Dir) for active hazard_* sensors
-            for idx, dir_name in hazard_indices:
+            # Emit hazard_<dir>(E) for active hazard_* sensors
+            for idx, sensor_name in hazard_sensors:
                 v = sensor_vals[idx]
                 if v > self.SENSOR_THRESHOLD:
-                    lines.append(f"hazard({E}, {dir_name}).")
+                    lines.append(f"{sensor_name}({E}).")
 
-            # Emit vase(E, Dir) for active vase_* sensors (optional feature)
-            for idx, dir_name in vase_indices:
+            # Emit vase_<dir>(E) for active vase_* sensors (optional extra features)
+            for idx, sensor_name in vase_sensors:
                 v = sensor_vals[idx]
                 if v > self.SENSOR_THRESHOLD:
-                    lines.append(f"vase({E}, {dir_name}).")
+                    lines.append(f"{sensor_name}({E}).")
 
-            # Emit chosen action as action(E, Dir)
+            # Emit chosen action as act_<dir>(E)
             a = rec.get("actions")
             if isinstance(a, int):
                 if not (0 <= a < len(actions)):
@@ -190,21 +208,25 @@ class MylarShield:
                         f"Action index out of range at timestep {t}: "
                         f"{a} not in [0, {len(actions)-1}]"
                     )
-                act = actions[a]
+                act_name = actions[a]
             else:
                 # assume string
-                act = str(a)
+                act_name = str(a)
 
-            lines.append(f"action({E}, {act}).")
+            safe_act_name = re.sub(r"[^a-zA-Z0-9_]", "_", act_name)
+            lines.append(f"act_{safe_act_name}({E}).")
 
             # Probabilistic label for unsafe_next(E)
             lines.append(f"{cost:.3f}::unsafe_next({E}).")
             lines.append("")
 
-        # save to file
+        program_str = "\n".join(lines).rstrip() + "\n"
+
+        # save to file for inspection/debugging
         with open("mylar_learn_input.pl", "w") as f:
-            f.writelines("\n".join(lines))
-        return "\n".join(lines).rstrip() + "\n"
+            f.write(program_str)
+
+        return program_str
 
 
     def _compile_probfoil_clauses_to_shield(self, clauses: str) -> str:
