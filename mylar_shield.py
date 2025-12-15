@@ -8,12 +8,17 @@ from typing import Dict, List, Tuple, Any
 import numpy as np
 
 class MylarShield:
-    def __init__(self, actions=list(), sensors=list(), normalization_fn=None):
+    def __init__(self, actions=list(), sensors=list(), normalization_fn=None, log=True):
         self.actions = actions
         self.sensors = sensors
         self.normalization_fn = normalization_fn
-        self.NEG_KEEP_PROB = 0.2 # probability to keep zero-cost examples
-        self.SENSOR_THRESHOLD = 0.3 # threshold to consider sensor "active"
+        self.NEG_KEEP_PROB = 0.3 # probability to keep zero-cost examples
+        self.SENSOR_THRESHOLD = 0.1 # threshold to consider sensor "active"
+        cur_time = time.strftime("%Y%m%d-%H%M%S")
+        self.log_filename = f"mylar_shield_learn_log_{cur_time}.txt"
+        self.log_file = open(self.log_filename, 'a') if log else None
+        if log:
+            print(f"[MylarShield] Logging to {self.log_filename}", file=self.log_file)
 
     def _extract_actions_and_sensors_from_shield(self, old_shield):
         """
@@ -76,38 +81,94 @@ class MylarShield:
         actions: List[str],
         log_dict: Dict[Any, Dict[str, Any]],
     ) -> str:
-        """
-        Convert log_dict into a ProbFOIL program (settings + data) using unary
-        predicates per direction/action:
+        import re, random
+        from typing import List, Tuple, Dict, Any
 
-            act_<dir>(E).          % chosen action direction at example E
-            hazard_<dir>(E).       % hazard lidar active in direction <dir> at E
-            vase_<dir>(E).         % vase lidar active in direction <dir> at E
-            unsafe_next(E).        % probabilistic label from safety cost
-
-        Expected log_dict format:
-            log_dict[time_step] = {
-                "sensor_values": <list of floats/ints aligned with `sensors`>,
-                "actions": <int index into `actions` OR action name string>,
-                "safety cost": <float>,  # will be normalized to [0,1] if needed
-            }
-
-        `sensors` is the list of sensor names from the shield, e.g.:
-            ["hazard_front","hazard_right","hazard_back","hazard_left",
-            "vase_front","vase_right","vase_back","vase_left"]
-        """
-
-        # Identify which sensor indices correspond to hazard_* and vase_* predicates
-        hazard_sensors: List[Tuple[int, str]] = []  # (idx, 'hazard_front')
-        vase_sensors: List[Tuple[int, str]] = []    # (idx, 'vase_left')
-
+        # Identify hazard_* and vase_* sensors by index
+        hazard_sensors: List[Tuple[int, str]] = []
+        vase_sensors: List[Tuple[int, str]] = []
         for idx, name in enumerate(sensors):
             if re.match(r"^hazard_\w+$", name):
                 hazard_sensors.append((idx, name))
             elif re.match(r"^vase_\w+$", name):
                 vase_sensors.append((idx, name))
 
-        # ---- SETTINGS ----
+        def _sort_key(x):
+            try:
+                return int(x)
+            except Exception:
+                return str(x)
+
+        # ---------- PASS 1: build retained examples and track used predicates ----------
+        examples = []
+        used_action_preds = set()
+        used_hazard_preds = set()
+        used_vase_preds = set()
+
+        for t in sorted(log_dict.keys(), key=_sort_key):
+            rec = log_dict[t]
+
+            cost = float(rec.get("safety cost", 0.0))
+            if self.normalization_fn is not None:
+                cost = self.normalization_fn(cost)
+            if not (0.0 <= cost <= 1.0):
+                raise ValueError(f"'safety cost' must be in [0,1]. Got {cost} at timestep {t}.")
+
+            # undersample safe examples
+            if cost == 0.0 and random.random() > self.NEG_KEEP_PROB:
+                continue
+
+            E = f"t{t}"
+            sensor_vals = rec.get("sensor_values", [])
+            if len(sensor_vals) != len(sensors):
+                raise ValueError(
+                    f"sensor_values length mismatch at timestep {t}: "
+                    f"got {len(sensor_vals)}, expected {len(sensors)}"
+                )
+
+            active_haz = []
+            for idx, sensor_name in hazard_sensors:
+                if sensor_vals[idx] > self.SENSOR_THRESHOLD:
+                    active_haz.append(sensor_name)
+                    used_hazard_preds.add(sensor_name)
+
+            active_vase = []
+            for idx, sensor_name in vase_sensors:
+                if sensor_vals[idx] > self.SENSOR_THRESHOLD:
+                    active_vase.append(sensor_name)
+                    used_vase_preds.add(sensor_name)
+
+            # action -> act_<name>
+            a_raw = rec.get("actions")
+            try:
+                a_idx = int(a_raw)
+            except (TypeError, ValueError):
+                a_idx = None
+
+            if a_idx is not None and 0 <= a_idx < len(actions):
+                act_name = str(actions[a_idx])
+            else:
+                act_name = str(a_raw)
+
+            safe_act = re.sub(r"[^a-zA-Z0-9_]", "_", act_name)
+            act_pred = f"act_{safe_act}"
+            used_action_preds.add(act_pred)
+
+            examples.append((E, active_haz, active_vase, act_pred, cost))
+
+        # If we kept nothing, return a minimal file
+        if not examples:
+            program_str = (
+                "%%%%%%%%%%%% SETTINGS %%%%%%%%%%%%\n\n"
+                "learn(unsafe_next/1).\n\n"
+                "example_mode(labeled).\n\n"
+                "%%%%%%%%%%%% DATA %%%%%%%%%%%%\n"
+            )
+            with open("mylar_learn_input.pl", "w") as f:
+                f.write(program_str)
+            return program_str
+
+        # ---------- SETTINGS: only declare used predicates ----------
         lines: List[str] = []
         lines += [
             "%%%%%%%%%%%% SETTINGS %%%%%%%%%%%%",
@@ -117,33 +178,18 @@ class MylarShield:
             "% allowed rule components",
         ]
 
-        # One mode per action direction: act_left(+), act_right(+), ...
-        for act_name in actions:
-            # guard in case action names aren't valid atoms (very defensive)
-            safe_act = re.sub(r"[^a-zA-Z0-9_]", "_", act_name)
-            lines.append(f"mode(act_{safe_act}(+)).")
+        for p in sorted(used_action_preds):
+            lines.append(f"mode({p}(+)).")
+        for p in sorted(used_hazard_preds):
+            lines.append(f"mode({p}(+)).")
+        for p in sorted(used_vase_preds):
+            lines.append(f"mode({p}(+)).")
 
-        # One mode per hazard direction: hazard_front(+), etc.
-        for _, sensor_name in hazard_sensors:
-            lines.append(f"mode({sensor_name}(+)).")
-
-        # One mode per vase direction: vase_front(+), etc. (optional, but useful)
-        for _, sensor_name in vase_sensors:
-            lines.append(f"mode({sensor_name}(+)).")
-
-        lines += [
-            "",
-            "% type declarations",
-        ]
-
-        # One base per action direction
-        for act_name in actions:
-            safe_act = re.sub(r"[^a-zA-Z0-9_]", "_", act_name)
-            lines.append(f"base(act_{safe_act}(example)).")
-
-        # One base per hazard/vase sensor
-        for _, sensor_name in hazard_sensors + vase_sensors:
-            lines.append(f"base({sensor_name}(example)).")
+        lines += ["", "% type declarations"]
+        for p in sorted(used_action_preds):
+            lines.append(f"base({p}(example)).")
+        for p in sorted(used_hazard_preds | used_vase_preds):
+            lines.append(f"base({p}(example)).")
 
         lines += [
             "base(unsafe_next(example)).",
@@ -154,110 +200,69 @@ class MylarShield:
             "",
         ]
 
-        # ---- DATA ----
-
-        # Deterministic order over time steps
-        def _sort_key(x):
-            try:
-                return int(x)
-            except Exception:
-                return str(x)
-
-        for t in sorted(log_dict.keys(), key=_sort_key):
-            rec = log_dict[t]
-
-            # Label: unsafe probability from (possibly normalized) safety cost
-            cost = float(rec.get("safety cost", 0.0))
-            if self.normalization_fn is not None:
-                cost = self.normalization_fn(cost)
-            if not (0.0 <= cost <= 1.0):
-                raise ValueError(
-                    f"'safety cost' must be in [0,1]. Got {cost} at timestep {t}."
-                )
-
-            # undersample zero-cost examples if needed
-            if cost == 0.0 and random.random() > self.NEG_KEEP_PROB:
-                continue
-
-            E = f"t{t}"
-
-            sensor_vals = rec.get("sensor_values", [])
-            if len(sensor_vals) != len(sensors):
-                raise ValueError(
-                    f"sensor_values length mismatch at timestep {t}: "
-                    f"got {len(sensor_vals)}, expected {len(sensors)}"
-                )
-
-            # Emit hazard_<dir>(E) for active hazard_* sensors
-            for idx, sensor_name in hazard_sensors:
-                v = sensor_vals[idx]
-                if v > self.SENSOR_THRESHOLD:
-                    lines.append(f"{sensor_name}({E}).")
-
-            # Emit vase_<dir>(E) for active vase_* sensors (optional extra features)
-            for idx, sensor_name in vase_sensors:
-                v = sensor_vals[idx]
-                if v > self.SENSOR_THRESHOLD:
-                    lines.append(f"{sensor_name}({E}).")
-
-            # Emit chosen action as act_<dir>(E)
-            a = rec.get("actions")
-            if isinstance(a, int):
-                if not (0 <= a < len(actions)):
-                    raise ValueError(
-                        f"Action index out of range at timestep {t}: "
-                        f"{a} not in [0, {len(actions)-1}]"
-                    )
-                act_name = actions[a]
-            else:
-                # assume string
-                act_name = str(a)
-
-            safe_act_name = re.sub(r"[^a-zA-Z0-9_]", "_", act_name)
-            lines.append(f"act_{safe_act_name}({E}).")
-
-            # Probabilistic label for unsafe_next(E)
+        # ---------- PASS 2: emit data ----------
+        for E, active_haz, active_vase, act_pred, cost in examples:
+            for s in active_haz:
+                lines.append(f"{s}({E}).")
+            for s in active_vase:
+                lines.append(f"{s}({E}).")
+            lines.append(f"{act_pred}({E}).")
             lines.append(f"{cost:.3f}::unsafe_next({E}).")
             lines.append("")
 
         program_str = "\n".join(lines).rstrip() + "\n"
-
-        # save to file for inspection/debugging
         with open("mylar_learn_input.pl", "w") as f:
             f.write(program_str)
-
         return program_str
 
-
-    def _compile_probfoil_clauses_to_shield(self, clauses: str) -> str:
+    def _compile_probfoil_clauses_to_shield(self, clauses):
         """
-        Transform learned ProbFOIL clauses over unsafe_next(E), sensor(E, S), action(E, A)
-        into shield-style clauses over unsafe_next, sensor(S), action(A).
+        Transform learned ProbFOIL clauses into shield-style clauses.
 
-        Assumes `clauses` is a ProbLog/Prolog chunk containing rules like:
+        Learning-time predicates (what ProbFOIL sees):
+            unsafe_next(E)
+            act_<dir>(E)          % e.g. act_front(E), act_left(E)
+            hazard_<dir>(E)       % e.g. hazard_front(E)
+            vase_<dir>(E)         % e.g. vase_left(E)
 
-            unsafe_next(E) :- sensor(E, stag_near_self), \+action(E, stay).
+        Shield-time predicates (what the runtime shield uses):
+            unsafe_next.
+            action(Dir).          % from act_<dir>(E)
+            hazard(Dir).          % from hazard_<dir>(E)  (combined with your existing hazard/1)
+            sensor(Name).         % for vases: sensor(vase_front), etc.
 
-        Returns a string like:
+        Examples:
+            unsafe_next(E) :- act_front(E), hazard_front(E).
 
-            unsafe_next :- sensor(stag_near_self), \+action(stay).
-            ...
+        becomes:
+
+            unsafe_next :- action(front), hazard(front).
+
+        and
+
+            unsafe_next(E) :- act_back(E), vase_left(E).
+
+        becomes:
+
+            unsafe_next :- action(back), sensor(vase_left).
 
         Any non-unsafe_next lines are ignored.
         """
 
         out_lines: List[str] = []
 
+        # Work line-by-line; 'clauses' is a string
         for raw in clauses:
-            raw = str(raw)
-            line = raw.strip()
+            line = str(raw).strip()
             if not line or line.startswith("%"):
                 continue
-            # if "unsafe_next" not in line:
-            #     continue  # ignore other learned stuff if any
 
-            # Drop probability annotations if they somehow appear (e.g., "0.8::unsafe_next(E) :- ...")
-            # line = re.sub(r"^\s*\d*\.?\d+\s*::\s*", "", line)
+            # Only care about clauses that define unsafe_next
+            if "unsafe_next" not in line:
+                continue
+
+            # Drop any probability prefix like "0.8::unsafe_next(A) :- ..."
+            line = re.sub(r"^\s*\d*\.?\d+\s*::\s*", "", line)
 
             # Head: unsafe_next(E) -> unsafe_next
             line = re.sub(
@@ -266,17 +271,28 @@ class MylarShield:
                 line,
             )
 
-            # Body: sensor(E, X) -> sensor(X)
+            # act_<dir>(E) -> action(dir)
+            # e.g. act_front(E) -> action(front)
             line = re.sub(
-                r"\bsensor\s*\(\s*[A-Za-z_][A-Za-z0-9_]*\s*,\s*",
-                "sensor(",
+                r"\bact_([A-Za-z0-9_]+)\s*\(\s*[A-Za-z_][A-Za-z0-9_]*\s*\)",
+                r"action(\1)",
                 line,
             )
 
-            # Body: action(E, A) -> action(A)
+            # hazard_<dir>(E) -> hazard(dir)
+            # e.g. hazard_front(E) -> hazard(front)
             line = re.sub(
-                r"\baction\s*\(\s*[A-Za-z_][A-Za-z0-9_]*\s*,\s*",
-                "action(",
+                r"\bhazard_([A-Za-z0-9_]+)\s*\(\s*[A-Za-z_][A-Za-z0-9_]*\s*\)",
+                r"hazard(\1)",
+                line,
+            )
+
+            # vase_<dir>(E) -> sensor(vase_dir)
+            # e.g. vase_left(E) -> sensor(vase_left)
+            # (Assumes your shield has sensor(vase_front), ... declarations)
+            line = re.sub(
+                r"\bvase_([A-Za-z0-9_]+)\s*\(\s*[A-Za-z_][A-Za-z0-9_]*\s*\)",
+                r"sensor(vase_\1)",
                 line,
             )
 
@@ -286,6 +302,10 @@ class MylarShield:
             # Ensure trailing '.'
             if not line.endswith("."):
                 line += "."
+
+            # Drop useless "unsafe_next :- fail."
+            if line.replace(" ", "").lower() == "unsafe_next:-fail.":
+                continue
 
             out_lines.append(line)
 
@@ -299,7 +319,7 @@ class MylarShield:
         :return: learned clauses as a string
         """
         data = DataFile(PrologString(probfoil_program))
-        learn = ProbFOIL2(data, beam_size=50, logger='probfoil', verbose=2)
+        learn = ProbFOIL2(data, beam_size=5, logger='probfoil', verbose=2)
         hypothesis = learn.learn()
         clauses = hypothesis.to_clauses(hypothesis.target.functor)
         if len(clauses) > 1:
@@ -322,41 +342,41 @@ class MylarShield:
         # 1) Get actions/sensors + preamble
         actions, sensors, preamble = self._extract_actions_and_sensors_from_shield(old_shield)
 
-        print(f"[MylarShield] Extracted {len(actions)} actions and {len(sensors)} sensors from old shield.")
+        print(f"[MylarShield] Extracted {len(actions)} actions and {len(sensors)} sensors from old shield.", file=self.log_file)
         # print("Actions:", actions)
         # print("Sensors:", sensors)
 
         # 2) Build ProbFOIL input
         probfoil_program = self.convert_str_log_to_pl(sensors, actions, log_dict)
-        print("[MylarShield] Generated ProbFOIL program (to learn from) from logs.")
-        print("[MylarShield] Length of ProbFOIL program:", probfoil_program.count('\n'), "lines")
+        print("[MylarShield] Generated ProbFOIL program (to learn from) from logs.", file=self.log_file)
+        print("[MylarShield] Length of ProbFOIL program:", probfoil_program.count('\n'), "lines", file=self.log_file)
 
         # print(probfoil_program[:500])
 
         # Check if there are any unsafe examples to learn from
         costs = [float(v["safety cost"]) for v in log_dict.values()]
-        print("[MylarShield] Max safety cost in batch:", max(costs))
-        print("[MylarShield] Min safety cost in batch:", min(costs))
+        print("[MylarShield] Max safety cost in batch:", max(costs), file=self.log_file)
+        print("[MylarShield] Min safety cost in batch:", min(costs), file=self.log_file)
         # print(costs)
-        print("[MylarShield] Mean safety cost in batch:", np.mean(costs))
+        print("[MylarShield] Mean safety cost in batch:", np.mean(costs), file=self.log_file)
         max_cost = max(costs) if costs else 0.0
         if max_cost <= 0.0:
             # nothing unsafe in this batch -> keep old shield
-            print("[MylarShield] No unsafe examples in batch, skipping ProbFOIL update.")
+            print("[MylarShield] No unsafe examples in batch, skipping ProbFOIL update.", file=self.log_file)
             return old_shield
 
         # 3) Learn clauses with ProbFOIL
         learned_clauses = self.learn_probfoil(probfoil_program)  # <- you provide this
-        print("[MylarShield] Learned ProbFOIL clauses:")
-        print(learned_clauses if len(learned_clauses) else "(none)")
+        print("[MylarShield] Learned ProbFOIL clauses:", file=self.log_file)
+        print(learned_clauses if len(learned_clauses) else "(none)", file=self.log_file)
 
         # 4) Compile to shield-style clauses
         shield_unsafe_clauses = self._compile_probfoil_clauses_to_shield(learned_clauses)
-        print("[MylarShield] Learned shield unsafe_next clauses:")
-        print(shield_unsafe_clauses if shield_unsafe_clauses.strip() else "(none)")
+        print("[MylarShield] Learned shield unsafe_next clauses:", file=self.log_file)
+        print(shield_unsafe_clauses if shield_unsafe_clauses.strip() else "(none)", file=self.log_file)
         normalized = " ".join(shield_unsafe_clauses.lower().split())
         if "unsafe_next :- true." in normalized:
-            print("[MylarShield] ProbFOIL returned 'always unsafe'; keeping old shield.")
+            print("[MylarShield] ProbFOIL returned 'always unsafe'; keeping old shield.", file=self.log_file)
             return old_shield
 
         # 5) Assemble final shield

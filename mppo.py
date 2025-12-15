@@ -368,8 +368,11 @@ class MylarPPO:
         # update shield if applicable
         if self.policy.shield is not None:
             new_shield_str = self.mylar_shield.generate_new_shield(self.policy_old.shield.program, self.policy_old.mylar_logs)
-            self.policy_old.shield.update_shield(new_shield_str)
-            self.policy.shield = self.policy_old.shield
+            if new_shield_str != self.policy_old.shield.program:
+                print("[MylarPPO] Updated shield.")
+                print("New shield program:\n", new_shield_str)
+                self.policy_old.shield.update_shield(new_shield_str)
+                self.policy.shield = self.policy_old.shield
 
         # clear logs
         self.policy_old.mylar_logs = {}

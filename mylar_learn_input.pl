@@ -3,1825 +3,2027 @@
 learn(unsafe_next/1).
 
 % allowed rule components
-mode(action(+,-)).
-mode(hazard(+,+)).
-mode(hazard(+,-)).
-mode(vase(+,+)).
+mode(act_back(+)).
+mode(act_front(+)).
+mode(act_right(+)).
+mode(hazard_back(+)).
+mode(hazard_front(+)).
+mode(hazard_left(+)).
+mode(hazard_right(+)).
 
 % type declarations
-base(action(example,direction)).
-base(hazard(example,direction)).
-base(vase(example,direction)).
+base(act_back(example)).
+base(act_front(example)).
+base(act_right(example)).
+base(hazard_back(example)).
+base(hazard_front(example)).
+base(hazard_left(example)).
+base(hazard_right(example)).
 base(unsafe_next(example)).
 
 example_mode(labeled).
 
 %%%%%%%%%%%% DATA %%%%%%%%%%%%
 
-hazard(t3, front).
-hazard(t3, right).
-hazard(t3, back).
-hazard(t3, left).
-vase(t3, back).
-action(t3, 3).
-0.000::unsafe_next(t3).
-
-hazard(t12, front).
-hazard(t12, right).
-hazard(t12, back).
-hazard(t12, left).
-vase(t12, back).
-action(t12, 1).
-0.000::unsafe_next(t12).
-
-hazard(t19, front).
-hazard(t19, right).
-hazard(t19, back).
-hazard(t19, left).
-action(t19, 2).
-0.000::unsafe_next(t19).
-
-hazard(t24, front).
-hazard(t24, right).
-hazard(t24, back).
-hazard(t24, left).
-action(t24, 1).
-0.000::unsafe_next(t24).
-
-hazard(t27, front).
-hazard(t27, right).
-hazard(t27, back).
-hazard(t27, left).
-action(t27, 1).
-0.000::unsafe_next(t27).
-
-hazard(t28, front).
-hazard(t28, right).
-hazard(t28, back).
-hazard(t28, left).
-action(t28, 3).
-0.000::unsafe_next(t28).
-
-hazard(t29, front).
-hazard(t29, right).
-hazard(t29, back).
-hazard(t29, left).
-action(t29, 2).
-0.000::unsafe_next(t29).
-
-hazard(t35, front).
-hazard(t35, right).
-hazard(t35, back).
-hazard(t35, left).
-action(t35, 2).
-0.000::unsafe_next(t35).
-
-hazard(t55, front).
-hazard(t55, back).
-hazard(t55, left).
-action(t55, 1).
-0.000::unsafe_next(t55).
-
-hazard(t59, front).
-hazard(t59, back).
-hazard(t59, left).
-action(t59, 1).
-0.000::unsafe_next(t59).
-
-hazard(t61, front).
-hazard(t61, back).
-hazard(t61, left).
-action(t61, 3).
-0.000::unsafe_next(t61).
-
-hazard(t62, front).
-hazard(t62, back).
-hazard(t62, left).
-action(t62, 2).
-0.000::unsafe_next(t62).
-
-hazard(t97, front).
-hazard(t97, back).
-hazard(t97, left).
-action(t97, 3).
-0.000::unsafe_next(t97).
-
-hazard(t100, front).
-hazard(t100, back).
-hazard(t100, left).
-action(t100, 2).
-0.000::unsafe_next(t100).
-
-hazard(t101, front).
-hazard(t101, back).
-hazard(t101, left).
-action(t101, 2).
-0.000::unsafe_next(t101).
-
-hazard(t102, front).
-hazard(t102, right).
-hazard(t102, back).
-hazard(t102, left).
-action(t102, 3).
-0.000::unsafe_next(t102).
-
-hazard(t103, front).
-hazard(t103, back).
-hazard(t103, left).
-action(t103, 2).
-0.000::unsafe_next(t103).
-
-hazard(t104, front).
-hazard(t104, back).
-hazard(t104, left).
-action(t104, 0).
-0.000::unsafe_next(t104).
-
-hazard(t106, front).
-hazard(t106, back).
-hazard(t106, left).
-action(t106, 1).
-0.000::unsafe_next(t106).
-
-hazard(t109, front).
-hazard(t109, back).
-hazard(t109, left).
-action(t109, 3).
-0.000::unsafe_next(t109).
-
-hazard(t111, front).
-hazard(t111, back).
-hazard(t111, left).
-action(t111, 3).
-0.000::unsafe_next(t111).
-
-hazard(t116, front).
-hazard(t116, right).
-hazard(t116, back).
-hazard(t116, left).
-action(t116, 3).
-0.000::unsafe_next(t116).
-
-hazard(t127, front).
-hazard(t127, right).
-hazard(t127, back).
-hazard(t127, left).
-action(t127, 3).
-0.000::unsafe_next(t127).
-
-hazard(t133, front).
-hazard(t133, right).
-hazard(t133, back).
-hazard(t133, left).
-action(t133, 3).
-0.000::unsafe_next(t133).
-
-hazard(t139, front).
-hazard(t139, right).
-hazard(t139, back).
-hazard(t139, left).
-action(t139, 0).
-0.000::unsafe_next(t139).
-
-hazard(t145, front).
-hazard(t145, right).
-hazard(t145, back).
-hazard(t145, left).
-action(t145, 1).
-0.000::unsafe_next(t145).
-
-hazard(t149, front).
-hazard(t149, right).
-hazard(t149, back).
-hazard(t149, left).
-action(t149, 0).
-0.000::unsafe_next(t149).
-
-hazard(t152, front).
-hazard(t152, right).
-hazard(t152, back).
-hazard(t152, left).
-action(t152, 1).
-0.000::unsafe_next(t152).
-
-hazard(t163, front).
-hazard(t163, right).
-hazard(t163, back).
-hazard(t163, left).
-action(t163, 2).
-0.000::unsafe_next(t163).
-
-hazard(t170, right).
-hazard(t170, back).
-hazard(t170, left).
-action(t170, 2).
-0.000::unsafe_next(t170).
-
-hazard(t176, right).
-hazard(t176, back).
-hazard(t176, left).
-action(t176, 3).
-0.000::unsafe_next(t176).
-
-hazard(t177, right).
-hazard(t177, back).
-hazard(t177, left).
-action(t177, 2).
-0.000::unsafe_next(t177).
-
-hazard(t180, right).
-hazard(t180, back).
-hazard(t180, left).
-action(t180, 3).
-0.000::unsafe_next(t180).
-
-hazard(t185, right).
-hazard(t185, back).
-hazard(t185, left).
-action(t185, 0).
-0.000::unsafe_next(t185).
-
-hazard(t189, right).
-hazard(t189, back).
-hazard(t189, left).
-action(t189, 0).
-0.000::unsafe_next(t189).
-
-hazard(t190, right).
-hazard(t190, back).
-hazard(t190, left).
-action(t190, 3).
-0.000::unsafe_next(t190).
-
-hazard(t194, right).
-hazard(t194, back).
-hazard(t194, left).
-action(t194, 3).
-0.000::unsafe_next(t194).
-
-hazard(t212, right).
-hazard(t212, back).
-hazard(t212, left).
-action(t212, 1).
-0.000::unsafe_next(t212).
-
-hazard(t216, right).
-hazard(t216, back).
-hazard(t216, left).
-action(t216, 2).
-0.000::unsafe_next(t216).
-
-hazard(t217, right).
-hazard(t217, back).
-hazard(t217, left).
-action(t217, 0).
-0.000::unsafe_next(t217).
-
-hazard(t224, front).
-hazard(t224, right).
-hazard(t224, back).
-hazard(t224, left).
-action(t224, 3).
-0.000::unsafe_next(t224).
-
-hazard(t231, front).
-hazard(t231, right).
-hazard(t231, back).
-hazard(t231, left).
-action(t231, 2).
-0.000::unsafe_next(t231).
-
-hazard(t241, front).
-hazard(t241, right).
-hazard(t241, back).
-hazard(t241, left).
-action(t241, 1).
-0.000::unsafe_next(t241).
-
-hazard(t254, front).
-hazard(t254, right).
-hazard(t254, back).
-hazard(t254, left).
-action(t254, 0).
-0.000::unsafe_next(t254).
-
-hazard(t262, front).
-hazard(t262, right).
-hazard(t262, back).
-hazard(t262, left).
-action(t262, 2).
-0.000::unsafe_next(t262).
-
-hazard(t263, front).
-hazard(t263, right).
-hazard(t263, back).
-hazard(t263, left).
-action(t263, 2).
-0.000::unsafe_next(t263).
-
-hazard(t266, front).
-hazard(t266, right).
-hazard(t266, back).
-action(t266, 3).
-0.000::unsafe_next(t266).
-
-hazard(t267, front).
-hazard(t267, right).
-hazard(t267, back).
-action(t267, 0).
-0.000::unsafe_next(t267).
-
-hazard(t271, front).
-hazard(t271, right).
-hazard(t271, back).
-action(t271, 2).
-0.000::unsafe_next(t271).
-
-hazard(t275, front).
-hazard(t275, right).
-hazard(t275, back).
-action(t275, 2).
-0.000::unsafe_next(t275).
-
-hazard(t278, front).
-hazard(t278, right).
-hazard(t278, back).
-action(t278, 3).
-0.000::unsafe_next(t278).
-
-hazard(t279, front).
-hazard(t279, right).
-hazard(t279, back).
-action(t279, 2).
-0.000::unsafe_next(t279).
-
-hazard(t280, front).
-hazard(t280, right).
-hazard(t280, back).
-action(t280, 1).
-0.000::unsafe_next(t280).
-
-hazard(t283, front).
-hazard(t283, right).
-hazard(t283, back).
-action(t283, 3).
-0.000::unsafe_next(t283).
-
-hazard(t284, front).
-hazard(t284, right).
-hazard(t284, back).
-action(t284, 3).
-0.000::unsafe_next(t284).
-
-hazard(t289, front).
-hazard(t289, right).
-hazard(t289, back).
-hazard(t289, left).
-action(t289, 2).
-0.000::unsafe_next(t289).
-
-hazard(t298, front).
-hazard(t298, right).
-hazard(t298, back).
-hazard(t298, left).
-action(t298, 0).
-0.000::unsafe_next(t298).
-
-hazard(t299, front).
-hazard(t299, right).
-hazard(t299, back).
-hazard(t299, left).
-action(t299, 0).
-0.000::unsafe_next(t299).
-
-hazard(t323, front).
-hazard(t323, right).
-hazard(t323, left).
-action(t323, 0).
-0.000::unsafe_next(t323).
-
-hazard(t324, front).
-hazard(t324, right).
-hazard(t324, left).
-action(t324, 1).
-0.000::unsafe_next(t324).
-
-hazard(t329, front).
-hazard(t329, right).
-hazard(t329, left).
-action(t329, 2).
-0.000::unsafe_next(t329).
-
-hazard(t332, front).
-hazard(t332, right).
-hazard(t332, left).
-vase(t332, back).
-action(t332, 1).
-0.000::unsafe_next(t332).
-
-hazard(t336, front).
-hazard(t336, right).
-hazard(t336, left).
-vase(t336, back).
-action(t336, 1).
-0.000::unsafe_next(t336).
-
-hazard(t344, front).
-hazard(t344, right).
-hazard(t344, left).
-vase(t344, back).
-action(t344, 3).
-0.000::unsafe_next(t344).
-
-hazard(t345, front).
-hazard(t345, right).
-hazard(t345, left).
-vase(t345, back).
-action(t345, 3).
-0.000::unsafe_next(t345).
-
-hazard(t354, front).
-hazard(t354, right).
-hazard(t354, left).
-vase(t354, back).
-action(t354, 1).
-0.000::unsafe_next(t354).
-
-hazard(t357, front).
-hazard(t357, right).
-hazard(t357, left).
-vase(t357, back).
-action(t357, 2).
-0.000::unsafe_next(t357).
-
-hazard(t360, front).
-hazard(t360, right).
-hazard(t360, left).
-vase(t360, back).
-action(t360, 1).
-0.000::unsafe_next(t360).
-
-hazard(t390, front).
-hazard(t390, right).
-hazard(t390, left).
-action(t390, 2).
-0.000::unsafe_next(t390).
-
-hazard(t402, front).
-hazard(t402, right).
-hazard(t402, left).
-action(t402, 0).
-0.000::unsafe_next(t402).
-
-hazard(t403, front).
-hazard(t403, right).
-hazard(t403, back).
-hazard(t403, left).
-action(t403, 3).
-0.000::unsafe_next(t403).
-
-hazard(t413, front).
-hazard(t413, right).
-hazard(t413, back).
-hazard(t413, left).
-action(t413, 1).
-0.000::unsafe_next(t413).
-
-hazard(t416, front).
-hazard(t416, right).
-hazard(t416, back).
-hazard(t416, left).
-action(t416, 2).
-0.000::unsafe_next(t416).
-
-hazard(t421, front).
-hazard(t421, right).
-hazard(t421, back).
-hazard(t421, left).
-action(t421, 0).
-0.000::unsafe_next(t421).
-
-hazard(t426, front).
-hazard(t426, right).
-hazard(t426, back).
-hazard(t426, left).
-action(t426, 2).
-0.000::unsafe_next(t426).
-
-hazard(t435, front).
-hazard(t435, right).
-hazard(t435, back).
-hazard(t435, left).
-action(t435, 3).
-0.000::unsafe_next(t435).
-
-hazard(t437, front).
-hazard(t437, right).
-hazard(t437, back).
-hazard(t437, left).
-action(t437, 3).
-0.000::unsafe_next(t437).
-
-hazard(t439, front).
-hazard(t439, right).
-hazard(t439, back).
-hazard(t439, left).
-action(t439, 2).
-0.000::unsafe_next(t439).
-
-hazard(t444, front).
-hazard(t444, right).
-hazard(t444, back).
-hazard(t444, left).
-action(t444, 3).
-0.000::unsafe_next(t444).
-
-hazard(t458, front).
-hazard(t458, right).
-hazard(t458, back).
-hazard(t458, left).
-action(t458, 2).
-0.000::unsafe_next(t458).
-
-hazard(t459, front).
-hazard(t459, right).
-hazard(t459, back).
-hazard(t459, left).
-action(t459, 2).
-0.000::unsafe_next(t459).
-
-hazard(t462, front).
-hazard(t462, right).
-hazard(t462, back).
-hazard(t462, left).
-action(t462, 1).
-0.000::unsafe_next(t462).
-
-hazard(t475, front).
-hazard(t475, right).
-hazard(t475, back).
-hazard(t475, left).
-action(t475, 2).
-1.000::unsafe_next(t475).
-
-hazard(t476, front).
-hazard(t476, right).
-hazard(t476, back).
-hazard(t476, left).
-action(t476, 0).
-1.000::unsafe_next(t476).
-
-hazard(t477, front).
-hazard(t477, right).
-hazard(t477, back).
-hazard(t477, left).
-action(t477, 3).
-1.000::unsafe_next(t477).
-
-hazard(t478, front).
-hazard(t478, right).
-hazard(t478, back).
-hazard(t478, left).
-action(t478, 1).
-1.000::unsafe_next(t478).
-
-hazard(t479, front).
-hazard(t479, right).
-hazard(t479, back).
-hazard(t479, left).
-action(t479, 2).
-1.000::unsafe_next(t479).
-
-hazard(t480, front).
-hazard(t480, right).
-hazard(t480, back).
-hazard(t480, left).
-action(t480, 0).
-1.000::unsafe_next(t480).
-
-hazard(t481, front).
-hazard(t481, right).
-hazard(t481, back).
-hazard(t481, left).
-action(t481, 2).
-1.000::unsafe_next(t481).
-
-hazard(t482, front).
-hazard(t482, right).
-hazard(t482, back).
-hazard(t482, left).
-action(t482, 3).
-1.000::unsafe_next(t482).
-
-hazard(t483, front).
-hazard(t483, right).
-hazard(t483, back).
-hazard(t483, left).
-action(t483, 0).
-1.000::unsafe_next(t483).
-
-hazard(t484, front).
-hazard(t484, right).
-hazard(t484, back).
-hazard(t484, left).
-action(t484, 2).
-1.000::unsafe_next(t484).
-
-hazard(t485, front).
-hazard(t485, right).
-hazard(t485, back).
-hazard(t485, left).
-action(t485, 3).
-1.000::unsafe_next(t485).
-
-hazard(t486, front).
-hazard(t486, right).
-hazard(t486, back).
-hazard(t486, left).
-action(t486, 0).
-1.000::unsafe_next(t486).
-
-hazard(t487, front).
-hazard(t487, right).
-hazard(t487, back).
-hazard(t487, left).
-action(t487, 0).
-1.000::unsafe_next(t487).
-
-hazard(t488, front).
-hazard(t488, right).
-hazard(t488, back).
-hazard(t488, left).
-action(t488, 3).
-1.000::unsafe_next(t488).
-
-hazard(t489, front).
-hazard(t489, right).
-hazard(t489, back).
-hazard(t489, left).
-action(t489, 0).
-1.000::unsafe_next(t489).
-
-hazard(t490, front).
-hazard(t490, right).
-hazard(t490, back).
-hazard(t490, left).
-action(t490, 3).
-1.000::unsafe_next(t490).
-
-hazard(t491, front).
-hazard(t491, right).
-hazard(t491, back).
-hazard(t491, left).
-action(t491, 3).
-1.000::unsafe_next(t491).
-
-hazard(t492, front).
-hazard(t492, right).
-hazard(t492, back).
-hazard(t492, left).
-action(t492, 1).
-1.000::unsafe_next(t492).
-
-hazard(t493, front).
-hazard(t493, right).
-hazard(t493, back).
-hazard(t493, left).
-action(t493, 2).
-1.000::unsafe_next(t493).
-
-hazard(t494, front).
-hazard(t494, right).
-hazard(t494, back).
-hazard(t494, left).
-action(t494, 3).
-1.000::unsafe_next(t494).
-
-hazard(t495, front).
-hazard(t495, right).
-hazard(t495, back).
-hazard(t495, left).
-action(t495, 1).
-1.000::unsafe_next(t495).
-
-hazard(t496, front).
-hazard(t496, right).
-hazard(t496, back).
-hazard(t496, left).
-action(t496, 2).
-1.000::unsafe_next(t496).
-
-hazard(t497, front).
-hazard(t497, right).
-hazard(t497, back).
-hazard(t497, left).
-action(t497, 2).
-1.000::unsafe_next(t497).
-
-hazard(t498, front).
-hazard(t498, right).
-hazard(t498, back).
-hazard(t498, left).
-action(t498, 2).
-1.000::unsafe_next(t498).
-
-hazard(t499, front).
-hazard(t499, right).
-hazard(t499, back).
-hazard(t499, left).
-action(t499, 2).
-1.000::unsafe_next(t499).
-
-hazard(t500, front).
-hazard(t500, right).
-hazard(t500, back).
-hazard(t500, left).
-action(t500, 1).
-1.000::unsafe_next(t500).
-
-hazard(t501, front).
-hazard(t501, right).
-hazard(t501, back).
-hazard(t501, left).
-action(t501, 2).
-1.000::unsafe_next(t501).
-
-hazard(t502, front).
-hazard(t502, right).
-hazard(t502, back).
-hazard(t502, left).
-action(t502, 3).
-1.000::unsafe_next(t502).
-
-hazard(t503, front).
-hazard(t503, right).
-hazard(t503, back).
-action(t503, 0).
-1.000::unsafe_next(t503).
-
-hazard(t504, front).
-hazard(t504, right).
-hazard(t504, back).
-action(t504, 1).
-1.000::unsafe_next(t504).
-
-hazard(t505, front).
-hazard(t505, right).
-hazard(t505, back).
-action(t505, 0).
-1.000::unsafe_next(t505).
-
-hazard(t506, front).
-hazard(t506, right).
-hazard(t506, back).
-action(t506, 3).
-1.000::unsafe_next(t506).
-
-hazard(t507, front).
-hazard(t507, right).
-hazard(t507, back).
-action(t507, 1).
-1.000::unsafe_next(t507).
-
-hazard(t508, front).
-hazard(t508, right).
-hazard(t508, back).
-action(t508, 3).
-1.000::unsafe_next(t508).
-
-hazard(t509, front).
-hazard(t509, right).
-hazard(t509, back).
-action(t509, 2).
-1.000::unsafe_next(t509).
-
-hazard(t510, front).
-hazard(t510, right).
-hazard(t510, back).
-action(t510, 1).
-1.000::unsafe_next(t510).
-
-hazard(t511, front).
-hazard(t511, right).
-hazard(t511, back).
-action(t511, 2).
-1.000::unsafe_next(t511).
-
-hazard(t512, front).
-hazard(t512, right).
-hazard(t512, back).
-action(t512, 0).
-1.000::unsafe_next(t512).
-
-hazard(t513, front).
-hazard(t513, right).
-hazard(t513, back).
-action(t513, 3).
-1.000::unsafe_next(t513).
-
-hazard(t514, front).
-hazard(t514, right).
-hazard(t514, back).
-action(t514, 0).
-1.000::unsafe_next(t514).
-
-hazard(t515, front).
-hazard(t515, right).
-hazard(t515, back).
-action(t515, 1).
-1.000::unsafe_next(t515).
-
-hazard(t516, front).
-hazard(t516, right).
-hazard(t516, back).
-action(t516, 2).
-1.000::unsafe_next(t516).
-
-hazard(t517, front).
-hazard(t517, right).
-hazard(t517, back).
-action(t517, 3).
-1.000::unsafe_next(t517).
-
-hazard(t518, front).
-hazard(t518, right).
-hazard(t518, back).
-action(t518, 1).
-1.000::unsafe_next(t518).
-
-hazard(t519, front).
-hazard(t519, right).
-hazard(t519, back).
-action(t519, 0).
-1.000::unsafe_next(t519).
-
-hazard(t520, front).
-hazard(t520, right).
-hazard(t520, back).
-action(t520, 1).
-1.000::unsafe_next(t520).
-
-hazard(t521, front).
-hazard(t521, right).
-hazard(t521, back).
-action(t521, 1).
-1.000::unsafe_next(t521).
-
-hazard(t522, front).
-hazard(t522, right).
-hazard(t522, back).
-action(t522, 2).
-1.000::unsafe_next(t522).
-
-hazard(t523, front).
-hazard(t523, right).
-hazard(t523, back).
-action(t523, 2).
-1.000::unsafe_next(t523).
-
-hazard(t524, front).
-hazard(t524, right).
-hazard(t524, back).
-action(t524, 0).
-1.000::unsafe_next(t524).
-
-hazard(t525, front).
-hazard(t525, right).
-hazard(t525, back).
-action(t525, 2).
-1.000::unsafe_next(t525).
-
-hazard(t526, front).
-hazard(t526, right).
-hazard(t526, back).
-action(t526, 0).
-1.000::unsafe_next(t526).
-
-hazard(t527, front).
-hazard(t527, right).
-hazard(t527, back).
-action(t527, 2).
-1.000::unsafe_next(t527).
-
-hazard(t528, front).
-hazard(t528, right).
-hazard(t528, back).
-action(t528, 2).
-1.000::unsafe_next(t528).
-
-hazard(t529, front).
-hazard(t529, right).
-hazard(t529, back).
-action(t529, 0).
-1.000::unsafe_next(t529).
-
-hazard(t530, front).
-hazard(t530, right).
-hazard(t530, back).
-action(t530, 3).
-1.000::unsafe_next(t530).
-
-hazard(t531, front).
-hazard(t531, right).
-hazard(t531, back).
-action(t531, 1).
-1.000::unsafe_next(t531).
-
-hazard(t532, front).
-hazard(t532, right).
-hazard(t532, back).
-action(t532, 2).
-1.000::unsafe_next(t532).
-
-hazard(t533, front).
-hazard(t533, right).
-hazard(t533, back).
-action(t533, 0).
-1.000::unsafe_next(t533).
-
-hazard(t534, front).
-hazard(t534, right).
-hazard(t534, back).
-action(t534, 1).
-1.000::unsafe_next(t534).
-
-hazard(t535, front).
-hazard(t535, right).
-hazard(t535, back).
-action(t535, 3).
-1.000::unsafe_next(t535).
-
-hazard(t536, front).
-hazard(t536, right).
-hazard(t536, back).
-action(t536, 0).
-1.000::unsafe_next(t536).
-
-hazard(t537, front).
-hazard(t537, right).
-hazard(t537, back).
-action(t537, 2).
-1.000::unsafe_next(t537).
-
-hazard(t540, front).
-hazard(t540, right).
-hazard(t540, back).
-action(t540, 0).
-0.000::unsafe_next(t540).
-
-hazard(t543, front).
-hazard(t543, right).
-hazard(t543, back).
-action(t543, 2).
-0.000::unsafe_next(t543).
-
-hazard(t544, front).
-hazard(t544, right).
-hazard(t544, back).
-hazard(t544, left).
-action(t544, 3).
-0.000::unsafe_next(t544).
-
-hazard(t545, front).
-hazard(t545, right).
-hazard(t545, back).
-hazard(t545, left).
-action(t545, 1).
-0.000::unsafe_next(t545).
-
-hazard(t562, front).
-hazard(t562, right).
-hazard(t562, left).
-action(t562, 0).
-0.000::unsafe_next(t562).
-
-hazard(t567, front).
-hazard(t567, right).
-hazard(t567, left).
-action(t567, 2).
-0.000::unsafe_next(t567).
-
-hazard(t572, front).
-hazard(t572, right).
-hazard(t572, left).
-action(t572, 1).
-0.000::unsafe_next(t572).
-
-hazard(t574, front).
-hazard(t574, right).
-hazard(t574, left).
-action(t574, 3).
-0.000::unsafe_next(t574).
-
-hazard(t575, front).
-hazard(t575, right).
-hazard(t575, left).
-action(t575, 2).
-0.000::unsafe_next(t575).
-
-hazard(t576, front).
-hazard(t576, right).
-hazard(t576, left).
-action(t576, 0).
-0.000::unsafe_next(t576).
-
-hazard(t577, front).
-hazard(t577, right).
-hazard(t577, left).
-action(t577, 2).
-0.000::unsafe_next(t577).
-
-hazard(t580, front).
-hazard(t580, right).
-hazard(t580, left).
-action(t580, 3).
-0.000::unsafe_next(t580).
-
-hazard(t589, front).
-hazard(t589, right).
-hazard(t589, back).
-hazard(t589, left).
-action(t589, 2).
-0.000::unsafe_next(t589).
-
-hazard(t591, front).
-hazard(t591, right).
-hazard(t591, back).
-hazard(t591, left).
-action(t591, 1).
-0.000::unsafe_next(t591).
-
-hazard(t592, front).
-hazard(t592, right).
-hazard(t592, back).
-hazard(t592, left).
-action(t592, 2).
-0.000::unsafe_next(t592).
-
-hazard(t594, front).
-hazard(t594, right).
-hazard(t594, back).
-hazard(t594, left).
-action(t594, 1).
-0.000::unsafe_next(t594).
-
-hazard(t595, front).
-hazard(t595, right).
-hazard(t595, back).
-hazard(t595, left).
-action(t595, 2).
-0.000::unsafe_next(t595).
-
-hazard(t611, front).
-hazard(t611, right).
-hazard(t611, back).
-hazard(t611, left).
-action(t611, 1).
-0.000::unsafe_next(t611).
-
-hazard(t616, front).
-hazard(t616, right).
-hazard(t616, back).
-hazard(t616, left).
-action(t616, 1).
-0.000::unsafe_next(t616).
-
-hazard(t619, front).
-hazard(t619, right).
-hazard(t619, back).
-hazard(t619, left).
-action(t619, 2).
-0.000::unsafe_next(t619).
-
-hazard(t621, front).
-hazard(t621, right).
-hazard(t621, back).
-hazard(t621, left).
-action(t621, 1).
-0.000::unsafe_next(t621).
-
-hazard(t628, front).
-hazard(t628, right).
-hazard(t628, back).
-hazard(t628, left).
-action(t628, 2).
-0.000::unsafe_next(t628).
-
-hazard(t632, front).
-hazard(t632, right).
-hazard(t632, back).
-hazard(t632, left).
-action(t632, 2).
-0.000::unsafe_next(t632).
-
-hazard(t637, front).
-hazard(t637, right).
-hazard(t637, back).
-hazard(t637, left).
-action(t637, 2).
-0.000::unsafe_next(t637).
-
-hazard(t638, front).
-hazard(t638, right).
-hazard(t638, back).
-hazard(t638, left).
-action(t638, 3).
-0.000::unsafe_next(t638).
-
-hazard(t639, front).
-hazard(t639, right).
-hazard(t639, back).
-hazard(t639, left).
-action(t639, 2).
-0.000::unsafe_next(t639).
-
-hazard(t649, front).
-hazard(t649, right).
-hazard(t649, back).
-hazard(t649, left).
-action(t649, 1).
-0.000::unsafe_next(t649).
-
-hazard(t656, front).
-hazard(t656, right).
-hazard(t656, back).
-action(t656, 2).
-0.000::unsafe_next(t656).
-
-hazard(t663, front).
-hazard(t663, right).
-hazard(t663, back).
-action(t663, 1).
-0.000::unsafe_next(t663).
-
-hazard(t672, front).
-hazard(t672, right).
-hazard(t672, back).
-action(t672, 2).
-0.000::unsafe_next(t672).
-
-hazard(t684, front).
-hazard(t684, right).
-hazard(t684, back).
-hazard(t684, left).
-action(t684, 3).
-0.000::unsafe_next(t684).
-
-hazard(t691, front).
-hazard(t691, right).
-hazard(t691, back).
-hazard(t691, left).
-action(t691, 1).
-0.000::unsafe_next(t691).
-
-hazard(t703, front).
-hazard(t703, right).
-hazard(t703, back).
-hazard(t703, left).
-action(t703, 2).
-0.000::unsafe_next(t703).
-
-hazard(t707, front).
-hazard(t707, right).
-hazard(t707, back).
-hazard(t707, left).
-action(t707, 2).
-0.000::unsafe_next(t707).
-
-hazard(t712, front).
-hazard(t712, right).
-hazard(t712, back).
-hazard(t712, left).
-action(t712, 2).
-0.000::unsafe_next(t712).
-
-hazard(t718, front).
-hazard(t718, right).
-hazard(t718, left).
-action(t718, 2).
-0.000::unsafe_next(t718).
-
-hazard(t723, front).
-hazard(t723, right).
-hazard(t723, left).
-action(t723, 1).
-0.000::unsafe_next(t723).
-
-hazard(t732, front).
-hazard(t732, right).
-hazard(t732, back).
-hazard(t732, left).
-action(t732, 0).
-0.000::unsafe_next(t732).
-
-hazard(t739, front).
-hazard(t739, right).
-hazard(t739, back).
-hazard(t739, left).
-action(t739, 1).
-0.000::unsafe_next(t739).
-
-hazard(t740, front).
-hazard(t740, right).
-hazard(t740, back).
-hazard(t740, left).
-action(t740, 1).
-0.000::unsafe_next(t740).
-
-hazard(t742, front).
-hazard(t742, right).
-hazard(t742, back).
-hazard(t742, left).
-action(t742, 2).
-0.000::unsafe_next(t742).
-
-hazard(t744, front).
-hazard(t744, right).
-hazard(t744, back).
-hazard(t744, left).
-action(t744, 3).
-0.000::unsafe_next(t744).
-
-hazard(t748, front).
-hazard(t748, right).
-hazard(t748, back).
-hazard(t748, left).
-action(t748, 3).
-0.000::unsafe_next(t748).
-
-hazard(t751, front).
-hazard(t751, right).
-hazard(t751, back).
-hazard(t751, left).
-action(t751, 1).
-0.000::unsafe_next(t751).
-
-hazard(t753, front).
-hazard(t753, right).
-hazard(t753, back).
-hazard(t753, left).
-action(t753, 0).
-0.000::unsafe_next(t753).
-
-hazard(t763, front).
-hazard(t763, right).
-hazard(t763, back).
-hazard(t763, left).
-action(t763, 1).
-0.000::unsafe_next(t763).
-
-hazard(t765, front).
-hazard(t765, right).
-hazard(t765, back).
-hazard(t765, left).
-action(t765, 1).
-0.000::unsafe_next(t765).
-
-hazard(t767, front).
-hazard(t767, right).
-hazard(t767, back).
-hazard(t767, left).
-action(t767, 0).
-0.000::unsafe_next(t767).
-
-hazard(t777, front).
-hazard(t777, right).
-hazard(t777, back).
-hazard(t777, left).
-action(t777, 0).
-0.000::unsafe_next(t777).
-
-hazard(t783, front).
-hazard(t783, right).
-hazard(t783, back).
-hazard(t783, left).
-action(t783, 1).
-0.000::unsafe_next(t783).
-
-hazard(t790, front).
-hazard(t790, right).
-hazard(t790, back).
-hazard(t790, left).
-action(t790, 3).
-0.000::unsafe_next(t790).
-
-hazard(t793, front).
-hazard(t793, right).
-hazard(t793, back).
-hazard(t793, left).
-action(t793, 3).
-0.000::unsafe_next(t793).
-
-hazard(t795, front).
-hazard(t795, right).
-hazard(t795, back).
-hazard(t795, left).
-action(t795, 2).
-0.000::unsafe_next(t795).
-
-hazard(t796, front).
-hazard(t796, right).
-hazard(t796, back).
-hazard(t796, left).
-action(t796, 0).
-0.000::unsafe_next(t796).
-
-hazard(t798, front).
-hazard(t798, right).
-hazard(t798, back).
-hazard(t798, left).
-action(t798, 2).
-0.000::unsafe_next(t798).
-
-hazard(t802, front).
-hazard(t802, right).
-hazard(t802, back).
-action(t802, 3).
-0.000::unsafe_next(t802).
-
-hazard(t807, front).
-hazard(t807, right).
-hazard(t807, back).
-action(t807, 2).
-1.000::unsafe_next(t807).
-
-hazard(t808, front).
-hazard(t808, right).
-hazard(t808, back).
-action(t808, 3).
-1.000::unsafe_next(t808).
-
-hazard(t809, front).
-hazard(t809, right).
-hazard(t809, back).
-action(t809, 2).
-1.000::unsafe_next(t809).
-
-hazard(t810, front).
-hazard(t810, right).
-hazard(t810, back).
-action(t810, 2).
-1.000::unsafe_next(t810).
-
-hazard(t811, front).
-hazard(t811, right).
-hazard(t811, back).
-action(t811, 2).
-1.000::unsafe_next(t811).
-
-hazard(t812, front).
-hazard(t812, right).
-hazard(t812, back).
-action(t812, 0).
-1.000::unsafe_next(t812).
-
-hazard(t813, front).
-hazard(t813, right).
-hazard(t813, back).
-action(t813, 1).
-1.000::unsafe_next(t813).
-
-hazard(t814, front).
-hazard(t814, right).
-hazard(t814, back).
-action(t814, 0).
-1.000::unsafe_next(t814).
-
-hazard(t815, front).
-hazard(t815, right).
-hazard(t815, back).
-action(t815, 2).
-1.000::unsafe_next(t815).
-
-hazard(t816, front).
-hazard(t816, right).
-hazard(t816, back).
-action(t816, 2).
-1.000::unsafe_next(t816).
-
-hazard(t817, front).
-hazard(t817, right).
-hazard(t817, back).
-hazard(t817, left).
-action(t817, 0).
-1.000::unsafe_next(t817).
-
-hazard(t818, front).
-hazard(t818, right).
-hazard(t818, back).
-hazard(t818, left).
-action(t818, 3).
-1.000::unsafe_next(t818).
-
-hazard(t819, front).
-hazard(t819, right).
-hazard(t819, back).
-hazard(t819, left).
-action(t819, 2).
-1.000::unsafe_next(t819).
-
-hazard(t820, front).
-hazard(t820, right).
-hazard(t820, back).
-hazard(t820, left).
-action(t820, 1).
-1.000::unsafe_next(t820).
-
-hazard(t821, front).
-hazard(t821, right).
-hazard(t821, back).
-hazard(t821, left).
-action(t821, 3).
-1.000::unsafe_next(t821).
-
-hazard(t822, front).
-hazard(t822, right).
-hazard(t822, back).
-hazard(t822, left).
-action(t822, 2).
-1.000::unsafe_next(t822).
-
-hazard(t823, front).
-hazard(t823, right).
-hazard(t823, back).
-hazard(t823, left).
-action(t823, 0).
-1.000::unsafe_next(t823).
-
-hazard(t824, front).
-hazard(t824, right).
-hazard(t824, back).
-hazard(t824, left).
-action(t824, 2).
-1.000::unsafe_next(t824).
-
-hazard(t825, front).
-hazard(t825, right).
-hazard(t825, back).
-hazard(t825, left).
-action(t825, 0).
-1.000::unsafe_next(t825).
-
-hazard(t826, front).
-hazard(t826, right).
-hazard(t826, back).
-hazard(t826, left).
-action(t826, 2).
-1.000::unsafe_next(t826).
-
-hazard(t827, front).
-hazard(t827, right).
-hazard(t827, back).
-hazard(t827, left).
-action(t827, 3).
-1.000::unsafe_next(t827).
-
-hazard(t828, front).
-hazard(t828, right).
-hazard(t828, back).
-hazard(t828, left).
-action(t828, 1).
-1.000::unsafe_next(t828).
-
-hazard(t829, front).
-hazard(t829, right).
-hazard(t829, back).
-hazard(t829, left).
-action(t829, 1).
-1.000::unsafe_next(t829).
-
-hazard(t830, front).
-hazard(t830, right).
-hazard(t830, back).
-hazard(t830, left).
-action(t830, 2).
-1.000::unsafe_next(t830).
-
-hazard(t831, front).
-hazard(t831, right).
-hazard(t831, back).
-action(t831, 3).
-1.000::unsafe_next(t831).
-
-hazard(t832, front).
-hazard(t832, right).
-hazard(t832, back).
-action(t832, 2).
-1.000::unsafe_next(t832).
-
-hazard(t833, front).
-hazard(t833, right).
-hazard(t833, back).
-action(t833, 2).
-1.000::unsafe_next(t833).
-
-hazard(t834, front).
-hazard(t834, right).
-hazard(t834, back).
-action(t834, 2).
-1.000::unsafe_next(t834).
-
-hazard(t835, front).
-hazard(t835, right).
-hazard(t835, back).
-action(t835, 2).
-1.000::unsafe_next(t835).
-
-hazard(t836, front).
-hazard(t836, right).
-hazard(t836, back).
-action(t836, 0).
-1.000::unsafe_next(t836).
-
-hazard(t837, front).
-hazard(t837, right).
-hazard(t837, back).
-action(t837, 2).
-1.000::unsafe_next(t837).
-
-hazard(t838, front).
-hazard(t838, right).
-hazard(t838, back).
-action(t838, 2).
-1.000::unsafe_next(t838).
-
-hazard(t839, front).
-hazard(t839, right).
-hazard(t839, back).
-action(t839, 2).
-1.000::unsafe_next(t839).
-
-hazard(t840, front).
-hazard(t840, right).
-hazard(t840, back).
-action(t840, 1).
-1.000::unsafe_next(t840).
-
-hazard(t841, front).
-hazard(t841, right).
-hazard(t841, back).
-action(t841, 0).
-1.000::unsafe_next(t841).
-
-hazard(t842, front).
-hazard(t842, right).
-hazard(t842, back).
-action(t842, 2).
-1.000::unsafe_next(t842).
-
-hazard(t843, front).
-hazard(t843, right).
-action(t843, 3).
-1.000::unsafe_next(t843).
-
-hazard(t844, front).
-hazard(t844, right).
-action(t844, 2).
-1.000::unsafe_next(t844).
-
-hazard(t845, front).
-hazard(t845, right).
-action(t845, 1).
-1.000::unsafe_next(t845).
-
-hazard(t846, front).
-hazard(t846, right).
-action(t846, 3).
-1.000::unsafe_next(t846).
-
-hazard(t847, front).
-hazard(t847, right).
-action(t847, 0).
-1.000::unsafe_next(t847).
-
-hazard(t848, front).
-hazard(t848, right).
-action(t848, 1).
-1.000::unsafe_next(t848).
-
-hazard(t849, front).
-hazard(t849, right).
-action(t849, 0).
-1.000::unsafe_next(t849).
-
-hazard(t850, front).
-hazard(t850, right).
-action(t850, 2).
-1.000::unsafe_next(t850).
-
-hazard(t851, front).
-hazard(t851, right).
-action(t851, 2).
-1.000::unsafe_next(t851).
-
-hazard(t854, front).
-hazard(t854, right).
-action(t854, 2).
-0.000::unsafe_next(t854).
-
-hazard(t860, front).
-hazard(t860, right).
-hazard(t860, left).
-action(t860, 2).
-0.000::unsafe_next(t860).
-
-hazard(t867, front).
-hazard(t867, right).
-hazard(t867, left).
-action(t867, 1).
-0.000::unsafe_next(t867).
-
-hazard(t870, front).
-hazard(t870, right).
-hazard(t870, left).
-action(t870, 2).
-0.000::unsafe_next(t870).
-
-hazard(t880, front).
-hazard(t880, right).
-hazard(t880, left).
-action(t880, 3).
-0.000::unsafe_next(t880).
-
-hazard(t881, front).
-hazard(t881, right).
-hazard(t881, left).
-action(t881, 2).
-0.000::unsafe_next(t881).
-
-hazard(t886, front).
-hazard(t886, right).
-hazard(t886, left).
-action(t886, 1).
-0.000::unsafe_next(t886).
-
-hazard(t887, front).
-hazard(t887, right).
-hazard(t887, left).
-action(t887, 0).
-0.000::unsafe_next(t887).
-
-hazard(t891, front).
-hazard(t891, right).
-hazard(t891, left).
-action(t891, 2).
-0.000::unsafe_next(t891).
-
-hazard(t894, front).
-hazard(t894, right).
-hazard(t894, left).
-action(t894, 1).
-0.000::unsafe_next(t894).
-
-hazard(t897, front).
-hazard(t897, right).
-hazard(t897, left).
-action(t897, 3).
-0.000::unsafe_next(t897).
-
-hazard(t898, front).
-hazard(t898, right).
-hazard(t898, left).
-action(t898, 1).
-0.000::unsafe_next(t898).
-
-hazard(t899, front).
-hazard(t899, right).
-hazard(t899, left).
-action(t899, 2).
-0.000::unsafe_next(t899).
-
-hazard(t901, front).
-hazard(t901, right).
-hazard(t901, left).
-action(t901, 2).
-0.000::unsafe_next(t901).
-
-hazard(t902, front).
-hazard(t902, right).
-hazard(t902, left).
-action(t902, 1).
-0.000::unsafe_next(t902).
-
-hazard(t908, front).
-hazard(t908, right).
-hazard(t908, left).
-action(t908, 0).
-0.000::unsafe_next(t908).
-
-hazard(t909, front).
-hazard(t909, right).
-hazard(t909, left).
-action(t909, 1).
-0.000::unsafe_next(t909).
-
-hazard(t910, front).
-hazard(t910, right).
-hazard(t910, left).
-action(t910, 1).
-0.000::unsafe_next(t910).
-
-hazard(t914, front).
-hazard(t914, right).
-hazard(t914, left).
-action(t914, 1).
-0.000::unsafe_next(t914).
-
-hazard(t916, front).
-hazard(t916, right).
-hazard(t916, left).
-action(t916, 0).
-0.000::unsafe_next(t916).
-
-hazard(t920, front).
-hazard(t920, right).
-hazard(t920, left).
-action(t920, 2).
-0.000::unsafe_next(t920).
-
-hazard(t927, front).
-hazard(t927, right).
-hazard(t927, left).
-action(t927, 1).
-0.000::unsafe_next(t927).
-
-hazard(t946, front).
-hazard(t946, right).
-hazard(t946, left).
-action(t946, 2).
-0.000::unsafe_next(t946).
-
-hazard(t948, front).
-hazard(t948, right).
-hazard(t948, left).
-action(t948, 2).
-0.000::unsafe_next(t948).
-
-hazard(t954, front).
-hazard(t954, right).
-hazard(t954, back).
-hazard(t954, left).
-action(t954, 0).
-0.000::unsafe_next(t954).
-
-hazard(t955, right).
-hazard(t955, back).
-hazard(t955, left).
-action(t955, 3).
-0.000::unsafe_next(t955).
-
-hazard(t956, right).
-hazard(t956, back).
-hazard(t956, left).
-action(t956, 0).
-0.000::unsafe_next(t956).
-
-hazard(t965, front).
-hazard(t965, right).
-hazard(t965, back).
-hazard(t965, left).
-action(t965, 2).
-0.000::unsafe_next(t965).
-
-hazard(t969, front).
-hazard(t969, right).
-hazard(t969, back).
-hazard(t969, left).
-action(t969, 2).
-0.000::unsafe_next(t969).
-
-hazard(t990, front).
-hazard(t990, right).
-hazard(t990, back).
-action(t990, 2).
-0.000::unsafe_next(t990).
-
-hazard(t993, front).
-hazard(t993, right).
-hazard(t993, back).
-action(t993, 2).
-0.000::unsafe_next(t993).
-
-hazard(t996, front).
-hazard(t996, right).
-hazard(t996, back).
-action(t996, 2).
-0.000::unsafe_next(t996).
-
-hazard(t997, front).
-hazard(t997, right).
-hazard(t997, back).
-action(t997, 0).
-0.000::unsafe_next(t997).
-
-hazard(t998, front).
-hazard(t998, right).
-hazard(t998, back).
-action(t998, 3).
-0.000::unsafe_next(t998).
-
-hazard(t999, front).
-hazard(t999, right).
-hazard(t999, back).
-action(t999, 2).
-0.000::unsafe_next(t999).
+hazard_front(t7002).
+hazard_right(t7002).
+hazard_back(t7002).
+hazard_left(t7002).
+act_right(t7002).
+0.000::unsafe_next(t7002).
+
+hazard_front(t7008).
+hazard_right(t7008).
+hazard_back(t7008).
+hazard_left(t7008).
+act_front(t7008).
+0.000::unsafe_next(t7008).
+
+hazard_front(t7009).
+hazard_right(t7009).
+hazard_back(t7009).
+hazard_left(t7009).
+act_front(t7009).
+0.000::unsafe_next(t7009).
+
+hazard_front(t7011).
+hazard_right(t7011).
+hazard_back(t7011).
+hazard_left(t7011).
+act_back(t7011).
+0.000::unsafe_next(t7011).
+
+hazard_front(t7013).
+hazard_right(t7013).
+hazard_back(t7013).
+hazard_left(t7013).
+act_back(t7013).
+0.000::unsafe_next(t7013).
+
+hazard_front(t7015).
+hazard_right(t7015).
+hazard_back(t7015).
+hazard_left(t7015).
+act_back(t7015).
+0.000::unsafe_next(t7015).
+
+hazard_front(t7017).
+hazard_right(t7017).
+hazard_back(t7017).
+hazard_left(t7017).
+act_right(t7017).
+0.000::unsafe_next(t7017).
+
+hazard_front(t7022).
+hazard_right(t7022).
+hazard_back(t7022).
+hazard_left(t7022).
+act_back(t7022).
+0.000::unsafe_next(t7022).
+
+hazard_front(t7023).
+hazard_right(t7023).
+hazard_back(t7023).
+hazard_left(t7023).
+act_front(t7023).
+0.000::unsafe_next(t7023).
+
+hazard_front(t7031).
+hazard_right(t7031).
+hazard_back(t7031).
+hazard_left(t7031).
+act_front(t7031).
+0.000::unsafe_next(t7031).
+
+hazard_front(t7034).
+hazard_right(t7034).
+hazard_back(t7034).
+hazard_left(t7034).
+act_front(t7034).
+0.000::unsafe_next(t7034).
+
+hazard_front(t7040).
+hazard_right(t7040).
+hazard_back(t7040).
+hazard_left(t7040).
+act_back(t7040).
+0.000::unsafe_next(t7040).
+
+hazard_front(t7043).
+hazard_right(t7043).
+hazard_back(t7043).
+hazard_left(t7043).
+act_back(t7043).
+0.000::unsafe_next(t7043).
+
+hazard_front(t7049).
+hazard_right(t7049).
+hazard_back(t7049).
+hazard_left(t7049).
+act_front(t7049).
+0.000::unsafe_next(t7049).
+
+hazard_front(t7053).
+hazard_right(t7053).
+hazard_back(t7053).
+hazard_left(t7053).
+act_right(t7053).
+0.000::unsafe_next(t7053).
+
+hazard_front(t7055).
+hazard_right(t7055).
+hazard_back(t7055).
+hazard_left(t7055).
+act_front(t7055).
+0.000::unsafe_next(t7055).
+
+hazard_front(t7057).
+hazard_right(t7057).
+hazard_back(t7057).
+hazard_left(t7057).
+act_back(t7057).
+0.000::unsafe_next(t7057).
+
+hazard_front(t7064).
+hazard_right(t7064).
+hazard_back(t7064).
+hazard_left(t7064).
+act_back(t7064).
+0.000::unsafe_next(t7064).
+
+hazard_front(t7068).
+hazard_right(t7068).
+hazard_back(t7068).
+hazard_left(t7068).
+act_front(t7068).
+0.000::unsafe_next(t7068).
+
+hazard_front(t7069).
+hazard_right(t7069).
+hazard_back(t7069).
+hazard_left(t7069).
+act_back(t7069).
+0.000::unsafe_next(t7069).
+
+hazard_front(t7073).
+hazard_right(t7073).
+hazard_back(t7073).
+hazard_left(t7073).
+act_right(t7073).
+0.000::unsafe_next(t7073).
+
+hazard_front(t7074).
+hazard_right(t7074).
+hazard_back(t7074).
+hazard_left(t7074).
+act_right(t7074).
+0.000::unsafe_next(t7074).
+
+hazard_front(t7079).
+hazard_right(t7079).
+hazard_back(t7079).
+hazard_left(t7079).
+act_front(t7079).
+0.000::unsafe_next(t7079).
+
+hazard_front(t7083).
+hazard_right(t7083).
+hazard_back(t7083).
+hazard_left(t7083).
+act_front(t7083).
+0.000::unsafe_next(t7083).
+
+hazard_front(t7084).
+hazard_right(t7084).
+hazard_back(t7084).
+hazard_left(t7084).
+act_front(t7084).
+0.000::unsafe_next(t7084).
+
+hazard_front(t7088).
+hazard_right(t7088).
+hazard_back(t7088).
+hazard_left(t7088).
+act_back(t7088).
+0.000::unsafe_next(t7088).
+
+hazard_front(t7091).
+hazard_right(t7091).
+hazard_back(t7091).
+hazard_left(t7091).
+act_front(t7091).
+0.000::unsafe_next(t7091).
+
+hazard_front(t7095).
+hazard_right(t7095).
+hazard_back(t7095).
+hazard_left(t7095).
+act_right(t7095).
+0.000::unsafe_next(t7095).
+
+hazard_front(t7096).
+hazard_right(t7096).
+hazard_back(t7096).
+hazard_left(t7096).
+act_back(t7096).
+0.000::unsafe_next(t7096).
+
+hazard_front(t7098).
+hazard_right(t7098).
+hazard_back(t7098).
+hazard_left(t7098).
+act_back(t7098).
+0.000::unsafe_next(t7098).
+
+hazard_front(t7101).
+hazard_right(t7101).
+hazard_back(t7101).
+hazard_left(t7101).
+act_back(t7101).
+0.000::unsafe_next(t7101).
+
+hazard_front(t7106).
+hazard_right(t7106).
+hazard_back(t7106).
+hazard_left(t7106).
+act_back(t7106).
+0.000::unsafe_next(t7106).
+
+hazard_front(t7111).
+hazard_right(t7111).
+hazard_back(t7111).
+hazard_left(t7111).
+act_right(t7111).
+0.000::unsafe_next(t7111).
+
+hazard_front(t7115).
+hazard_right(t7115).
+hazard_back(t7115).
+hazard_left(t7115).
+act_back(t7115).
+0.000::unsafe_next(t7115).
+
+hazard_front(t7117).
+hazard_right(t7117).
+hazard_back(t7117).
+hazard_left(t7117).
+act_front(t7117).
+0.000::unsafe_next(t7117).
+
+hazard_front(t7121).
+hazard_right(t7121).
+hazard_back(t7121).
+hazard_left(t7121).
+act_front(t7121).
+0.000::unsafe_next(t7121).
+
+hazard_front(t7123).
+hazard_right(t7123).
+hazard_left(t7123).
+act_front(t7123).
+0.000::unsafe_next(t7123).
+
+hazard_front(t7124).
+hazard_right(t7124).
+hazard_left(t7124).
+act_back(t7124).
+0.000::unsafe_next(t7124).
+
+hazard_front(t7126).
+hazard_right(t7126).
+hazard_left(t7126).
+act_front(t7126).
+0.000::unsafe_next(t7126).
+
+hazard_front(t7127).
+hazard_right(t7127).
+hazard_left(t7127).
+act_front(t7127).
+0.000::unsafe_next(t7127).
+
+hazard_front(t7135).
+hazard_right(t7135).
+hazard_left(t7135).
+act_right(t7135).
+0.000::unsafe_next(t7135).
+
+hazard_front(t7136).
+hazard_right(t7136).
+hazard_left(t7136).
+act_front(t7136).
+0.000::unsafe_next(t7136).
+
+hazard_front(t7141).
+hazard_right(t7141).
+hazard_left(t7141).
+act_back(t7141).
+0.000::unsafe_next(t7141).
+
+hazard_front(t7144).
+hazard_right(t7144).
+hazard_left(t7144).
+act_back(t7144).
+0.000::unsafe_next(t7144).
+
+hazard_front(t7147).
+hazard_right(t7147).
+hazard_left(t7147).
+act_back(t7147).
+0.000::unsafe_next(t7147).
+
+hazard_front(t7150).
+hazard_right(t7150).
+hazard_left(t7150).
+act_front(t7150).
+0.000::unsafe_next(t7150).
+
+hazard_front(t7151).
+hazard_right(t7151).
+hazard_left(t7151).
+act_front(t7151).
+0.000::unsafe_next(t7151).
+
+hazard_front(t7152).
+hazard_right(t7152).
+hazard_left(t7152).
+act_back(t7152).
+0.000::unsafe_next(t7152).
+
+hazard_front(t7168).
+hazard_right(t7168).
+hazard_left(t7168).
+act_back(t7168).
+0.000::unsafe_next(t7168).
+
+hazard_front(t7169).
+hazard_right(t7169).
+hazard_left(t7169).
+act_front(t7169).
+0.000::unsafe_next(t7169).
+
+hazard_front(t7175).
+hazard_right(t7175).
+hazard_back(t7175).
+hazard_left(t7175).
+act_front(t7175).
+0.000::unsafe_next(t7175).
+
+hazard_front(t7179).
+hazard_right(t7179).
+hazard_back(t7179).
+hazard_left(t7179).
+act_front(t7179).
+0.000::unsafe_next(t7179).
+
+hazard_front(t7180).
+hazard_right(t7180).
+hazard_back(t7180).
+hazard_left(t7180).
+act_back(t7180).
+0.000::unsafe_next(t7180).
+
+hazard_front(t7182).
+hazard_right(t7182).
+hazard_back(t7182).
+hazard_left(t7182).
+act_back(t7182).
+0.000::unsafe_next(t7182).
+
+hazard_front(t7186).
+hazard_right(t7186).
+hazard_back(t7186).
+hazard_left(t7186).
+act_right(t7186).
+0.000::unsafe_next(t7186).
+
+hazard_front(t7187).
+hazard_right(t7187).
+hazard_back(t7187).
+hazard_left(t7187).
+act_right(t7187).
+0.000::unsafe_next(t7187).
+
+hazard_front(t7188).
+hazard_right(t7188).
+hazard_back(t7188).
+hazard_left(t7188).
+act_front(t7188).
+0.000::unsafe_next(t7188).
+
+hazard_front(t7194).
+hazard_right(t7194).
+hazard_left(t7194).
+act_front(t7194).
+0.000::unsafe_next(t7194).
+
+hazard_front(t7196).
+hazard_right(t7196).
+hazard_left(t7196).
+act_right(t7196).
+0.000::unsafe_next(t7196).
+
+hazard_front(t7198).
+hazard_right(t7198).
+hazard_left(t7198).
+act_front(t7198).
+0.000::unsafe_next(t7198).
+
+hazard_front(t7200).
+hazard_right(t7200).
+hazard_left(t7200).
+act_front(t7200).
+0.000::unsafe_next(t7200).
+
+hazard_front(t7203).
+hazard_right(t7203).
+hazard_left(t7203).
+act_back(t7203).
+0.000::unsafe_next(t7203).
+
+hazard_front(t7204).
+hazard_right(t7204).
+hazard_left(t7204).
+act_back(t7204).
+0.000::unsafe_next(t7204).
+
+hazard_front(t7205).
+hazard_right(t7205).
+hazard_left(t7205).
+act_back(t7205).
+0.000::unsafe_next(t7205).
+
+hazard_front(t7206).
+hazard_right(t7206).
+hazard_left(t7206).
+act_front(t7206).
+0.000::unsafe_next(t7206).
+
+hazard_front(t7207).
+hazard_right(t7207).
+hazard_left(t7207).
+act_front(t7207).
+0.000::unsafe_next(t7207).
+
+hazard_front(t7211).
+hazard_right(t7211).
+hazard_back(t7211).
+hazard_left(t7211).
+act_front(t7211).
+0.000::unsafe_next(t7211).
+
+hazard_front(t7213).
+hazard_right(t7213).
+hazard_back(t7213).
+hazard_left(t7213).
+act_front(t7213).
+0.000::unsafe_next(t7213).
+
+hazard_front(t7217).
+hazard_right(t7217).
+hazard_back(t7217).
+hazard_left(t7217).
+act_back(t7217).
+0.000::unsafe_next(t7217).
+
+hazard_front(t7222).
+hazard_right(t7222).
+hazard_back(t7222).
+hazard_left(t7222).
+act_back(t7222).
+0.000::unsafe_next(t7222).
+
+hazard_front(t7227).
+hazard_right(t7227).
+hazard_back(t7227).
+hazard_left(t7227).
+act_front(t7227).
+0.000::unsafe_next(t7227).
+
+hazard_front(t7238).
+hazard_right(t7238).
+hazard_back(t7238).
+hazard_left(t7238).
+act_right(t7238).
+0.000::unsafe_next(t7238).
+
+hazard_front(t7243).
+hazard_right(t7243).
+hazard_back(t7243).
+hazard_left(t7243).
+act_back(t7243).
+0.000::unsafe_next(t7243).
+
+hazard_front(t7244).
+hazard_right(t7244).
+hazard_back(t7244).
+hazard_left(t7244).
+act_back(t7244).
+0.000::unsafe_next(t7244).
+
+hazard_front(t7247).
+hazard_right(t7247).
+hazard_back(t7247).
+hazard_left(t7247).
+act_front(t7247).
+0.000::unsafe_next(t7247).
+
+hazard_front(t7249).
+hazard_right(t7249).
+hazard_back(t7249).
+hazard_left(t7249).
+act_front(t7249).
+0.000::unsafe_next(t7249).
+
+hazard_front(t7252).
+hazard_right(t7252).
+hazard_back(t7252).
+hazard_left(t7252).
+act_right(t7252).
+0.000::unsafe_next(t7252).
+
+hazard_front(t7255).
+hazard_right(t7255).
+hazard_back(t7255).
+hazard_left(t7255).
+act_right(t7255).
+0.000::unsafe_next(t7255).
+
+hazard_front(t7260).
+hazard_right(t7260).
+hazard_back(t7260).
+hazard_left(t7260).
+act_right(t7260).
+0.000::unsafe_next(t7260).
+
+hazard_front(t7263).
+hazard_right(t7263).
+hazard_back(t7263).
+hazard_left(t7263).
+act_back(t7263).
+0.000::unsafe_next(t7263).
+
+hazard_front(t7265).
+hazard_right(t7265).
+hazard_back(t7265).
+hazard_left(t7265).
+act_front(t7265).
+0.000::unsafe_next(t7265).
+
+hazard_front(t7266).
+hazard_right(t7266).
+hazard_back(t7266).
+hazard_left(t7266).
+act_front(t7266).
+0.000::unsafe_next(t7266).
+
+hazard_front(t7272).
+hazard_right(t7272).
+hazard_back(t7272).
+hazard_left(t7272).
+act_front(t7272).
+0.000::unsafe_next(t7272).
+
+hazard_front(t7275).
+hazard_right(t7275).
+hazard_back(t7275).
+hazard_left(t7275).
+act_front(t7275).
+0.000::unsafe_next(t7275).
+
+hazard_front(t7276).
+hazard_right(t7276).
+hazard_back(t7276).
+hazard_left(t7276).
+act_front(t7276).
+0.000::unsafe_next(t7276).
+
+hazard_front(t7278).
+hazard_right(t7278).
+hazard_back(t7278).
+hazard_left(t7278).
+act_front(t7278).
+0.000::unsafe_next(t7278).
+
+hazard_front(t7284).
+hazard_right(t7284).
+hazard_back(t7284).
+hazard_left(t7284).
+act_back(t7284).
+0.000::unsafe_next(t7284).
+
+hazard_front(t7286).
+hazard_right(t7286).
+hazard_back(t7286).
+hazard_left(t7286).
+act_front(t7286).
+0.000::unsafe_next(t7286).
+
+hazard_front(t7288).
+hazard_right(t7288).
+hazard_back(t7288).
+hazard_left(t7288).
+act_front(t7288).
+0.000::unsafe_next(t7288).
+
+hazard_front(t7295).
+hazard_right(t7295).
+hazard_back(t7295).
+hazard_left(t7295).
+act_right(t7295).
+0.000::unsafe_next(t7295).
+
+hazard_front(t7298).
+hazard_right(t7298).
+hazard_back(t7298).
+hazard_left(t7298).
+act_right(t7298).
+0.000::unsafe_next(t7298).
+
+hazard_front(t7300).
+hazard_right(t7300).
+hazard_back(t7300).
+hazard_left(t7300).
+act_front(t7300).
+0.000::unsafe_next(t7300).
+
+hazard_front(t7303).
+hazard_right(t7303).
+hazard_back(t7303).
+hazard_left(t7303).
+act_right(t7303).
+0.000::unsafe_next(t7303).
+
+hazard_front(t7304).
+hazard_right(t7304).
+hazard_back(t7304).
+hazard_left(t7304).
+act_back(t7304).
+0.000::unsafe_next(t7304).
+
+hazard_front(t7305).
+hazard_right(t7305).
+hazard_back(t7305).
+hazard_left(t7305).
+act_back(t7305).
+0.000::unsafe_next(t7305).
+
+hazard_front(t7307).
+hazard_right(t7307).
+hazard_back(t7307).
+hazard_left(t7307).
+act_back(t7307).
+0.000::unsafe_next(t7307).
+
+hazard_front(t7315).
+hazard_right(t7315).
+hazard_back(t7315).
+hazard_left(t7315).
+act_right(t7315).
+0.000::unsafe_next(t7315).
+
+hazard_front(t7319).
+hazard_right(t7319).
+hazard_back(t7319).
+hazard_left(t7319).
+act_back(t7319).
+0.000::unsafe_next(t7319).
+
+hazard_front(t7320).
+hazard_right(t7320).
+hazard_back(t7320).
+hazard_left(t7320).
+act_front(t7320).
+0.000::unsafe_next(t7320).
+
+hazard_front(t7321).
+hazard_right(t7321).
+hazard_back(t7321).
+hazard_left(t7321).
+act_right(t7321).
+0.000::unsafe_next(t7321).
+
+hazard_front(t7323).
+hazard_right(t7323).
+hazard_back(t7323).
+hazard_left(t7323).
+act_back(t7323).
+0.000::unsafe_next(t7323).
+
+hazard_front(t7328).
+hazard_right(t7328).
+hazard_back(t7328).
+hazard_left(t7328).
+act_right(t7328).
+0.000::unsafe_next(t7328).
+
+hazard_front(t7332).
+hazard_right(t7332).
+hazard_back(t7332).
+hazard_left(t7332).
+act_right(t7332).
+0.000::unsafe_next(t7332).
+
+hazard_front(t7333).
+hazard_right(t7333).
+hazard_back(t7333).
+hazard_left(t7333).
+act_right(t7333).
+0.000::unsafe_next(t7333).
+
+hazard_front(t7355).
+hazard_right(t7355).
+hazard_back(t7355).
+hazard_left(t7355).
+act_front(t7355).
+0.000::unsafe_next(t7355).
+
+hazard_front(t7359).
+hazard_right(t7359).
+hazard_back(t7359).
+hazard_left(t7359).
+act_back(t7359).
+0.000::unsafe_next(t7359).
+
+hazard_front(t7363).
+hazard_right(t7363).
+hazard_back(t7363).
+hazard_left(t7363).
+act_front(t7363).
+0.000::unsafe_next(t7363).
+
+hazard_front(t7377).
+hazard_right(t7377).
+hazard_back(t7377).
+hazard_left(t7377).
+act_front(t7377).
+0.000::unsafe_next(t7377).
+
+hazard_front(t7378).
+hazard_right(t7378).
+hazard_back(t7378).
+hazard_left(t7378).
+act_front(t7378).
+0.000::unsafe_next(t7378).
+
+hazard_front(t7380).
+hazard_right(t7380).
+hazard_back(t7380).
+hazard_left(t7380).
+act_front(t7380).
+0.000::unsafe_next(t7380).
+
+hazard_front(t7381).
+hazard_right(t7381).
+hazard_back(t7381).
+hazard_left(t7381).
+act_front(t7381).
+0.000::unsafe_next(t7381).
+
+hazard_front(t7382).
+hazard_right(t7382).
+hazard_back(t7382).
+hazard_left(t7382).
+act_back(t7382).
+0.000::unsafe_next(t7382).
+
+hazard_front(t7383).
+hazard_right(t7383).
+hazard_back(t7383).
+hazard_left(t7383).
+act_front(t7383).
+0.000::unsafe_next(t7383).
+
+hazard_front(t7384).
+hazard_right(t7384).
+hazard_back(t7384).
+hazard_left(t7384).
+act_back(t7384).
+0.000::unsafe_next(t7384).
+
+hazard_front(t7388).
+hazard_right(t7388).
+hazard_back(t7388).
+hazard_left(t7388).
+act_front(t7388).
+0.000::unsafe_next(t7388).
+
+hazard_front(t7390).
+hazard_right(t7390).
+hazard_back(t7390).
+hazard_left(t7390).
+act_front(t7390).
+0.000::unsafe_next(t7390).
+
+hazard_front(t7391).
+hazard_right(t7391).
+hazard_back(t7391).
+hazard_left(t7391).
+act_right(t7391).
+0.000::unsafe_next(t7391).
+
+hazard_front(t7392).
+hazard_right(t7392).
+hazard_back(t7392).
+hazard_left(t7392).
+act_front(t7392).
+0.000::unsafe_next(t7392).
+
+hazard_front(t7395).
+hazard_right(t7395).
+hazard_back(t7395).
+hazard_left(t7395).
+act_front(t7395).
+0.000::unsafe_next(t7395).
+
+hazard_front(t7401).
+hazard_right(t7401).
+hazard_back(t7401).
+hazard_left(t7401).
+act_back(t7401).
+0.000::unsafe_next(t7401).
+
+hazard_front(t7406).
+hazard_right(t7406).
+hazard_back(t7406).
+hazard_left(t7406).
+act_front(t7406).
+0.000::unsafe_next(t7406).
+
+hazard_front(t7408).
+hazard_right(t7408).
+hazard_back(t7408).
+hazard_left(t7408).
+act_right(t7408).
+0.000::unsafe_next(t7408).
+
+hazard_front(t7410).
+hazard_right(t7410).
+hazard_back(t7410).
+hazard_left(t7410).
+act_right(t7410).
+0.000::unsafe_next(t7410).
+
+hazard_front(t7413).
+hazard_right(t7413).
+hazard_back(t7413).
+hazard_left(t7413).
+act_front(t7413).
+0.000::unsafe_next(t7413).
+
+hazard_front(t7414).
+hazard_right(t7414).
+hazard_back(t7414).
+hazard_left(t7414).
+act_front(t7414).
+0.000::unsafe_next(t7414).
+
+hazard_front(t7416).
+hazard_right(t7416).
+hazard_back(t7416).
+hazard_left(t7416).
+act_right(t7416).
+0.000::unsafe_next(t7416).
+
+hazard_front(t7419).
+hazard_right(t7419).
+hazard_back(t7419).
+hazard_left(t7419).
+act_right(t7419).
+0.000::unsafe_next(t7419).
+
+hazard_front(t7421).
+hazard_right(t7421).
+hazard_back(t7421).
+hazard_left(t7421).
+act_right(t7421).
+0.000::unsafe_next(t7421).
+
+hazard_front(t7422).
+hazard_right(t7422).
+hazard_back(t7422).
+hazard_left(t7422).
+act_right(t7422).
+0.000::unsafe_next(t7422).
+
+hazard_front(t7424).
+hazard_right(t7424).
+hazard_back(t7424).
+hazard_left(t7424).
+act_front(t7424).
+0.000::unsafe_next(t7424).
+
+hazard_front(t7428).
+hazard_right(t7428).
+hazard_back(t7428).
+hazard_left(t7428).
+act_right(t7428).
+0.000::unsafe_next(t7428).
+
+hazard_front(t7431).
+hazard_right(t7431).
+hazard_back(t7431).
+hazard_left(t7431).
+act_right(t7431).
+0.000::unsafe_next(t7431).
+
+hazard_front(t7432).
+hazard_right(t7432).
+hazard_back(t7432).
+hazard_left(t7432).
+act_right(t7432).
+0.000::unsafe_next(t7432).
+
+hazard_front(t7435).
+hazard_right(t7435).
+hazard_back(t7435).
+hazard_left(t7435).
+act_right(t7435).
+0.000::unsafe_next(t7435).
+
+hazard_front(t7437).
+hazard_right(t7437).
+hazard_back(t7437).
+hazard_left(t7437).
+act_right(t7437).
+0.000::unsafe_next(t7437).
+
+hazard_front(t7440).
+hazard_right(t7440).
+hazard_back(t7440).
+hazard_left(t7440).
+act_back(t7440).
+0.000::unsafe_next(t7440).
+
+hazard_front(t7443).
+hazard_right(t7443).
+hazard_back(t7443).
+hazard_left(t7443).
+act_front(t7443).
+0.000::unsafe_next(t7443).
+
+hazard_front(t7450).
+hazard_right(t7450).
+hazard_back(t7450).
+hazard_left(t7450).
+act_right(t7450).
+0.000::unsafe_next(t7450).
+
+hazard_front(t7451).
+hazard_right(t7451).
+hazard_back(t7451).
+hazard_left(t7451).
+act_right(t7451).
+0.000::unsafe_next(t7451).
+
+hazard_front(t7453).
+hazard_right(t7453).
+hazard_back(t7453).
+hazard_left(t7453).
+act_right(t7453).
+0.000::unsafe_next(t7453).
+
+hazard_front(t7454).
+hazard_right(t7454).
+hazard_back(t7454).
+hazard_left(t7454).
+act_right(t7454).
+0.000::unsafe_next(t7454).
+
+hazard_front(t7455).
+hazard_right(t7455).
+hazard_back(t7455).
+hazard_left(t7455).
+act_right(t7455).
+0.000::unsafe_next(t7455).
+
+hazard_front(t7456).
+hazard_right(t7456).
+hazard_back(t7456).
+hazard_left(t7456).
+act_front(t7456).
+0.000::unsafe_next(t7456).
+
+hazard_front(t7457).
+hazard_right(t7457).
+hazard_back(t7457).
+hazard_left(t7457).
+act_right(t7457).
+0.000::unsafe_next(t7457).
+
+hazard_front(t7465).
+hazard_right(t7465).
+hazard_back(t7465).
+hazard_left(t7465).
+act_front(t7465).
+0.000::unsafe_next(t7465).
+
+hazard_front(t7466).
+hazard_right(t7466).
+hazard_back(t7466).
+hazard_left(t7466).
+act_front(t7466).
+0.000::unsafe_next(t7466).
+
+hazard_front(t7469).
+hazard_right(t7469).
+hazard_back(t7469).
+hazard_left(t7469).
+act_back(t7469).
+0.000::unsafe_next(t7469).
+
+hazard_front(t7476).
+hazard_right(t7476).
+hazard_back(t7476).
+hazard_left(t7476).
+act_front(t7476).
+0.000::unsafe_next(t7476).
+
+hazard_front(t7484).
+hazard_right(t7484).
+hazard_back(t7484).
+hazard_left(t7484).
+act_back(t7484).
+0.000::unsafe_next(t7484).
+
+hazard_front(t7486).
+hazard_right(t7486).
+hazard_back(t7486).
+hazard_left(t7486).
+act_right(t7486).
+0.000::unsafe_next(t7486).
+
+hazard_front(t7487).
+hazard_right(t7487).
+hazard_back(t7487).
+hazard_left(t7487).
+act_right(t7487).
+0.000::unsafe_next(t7487).
+
+hazard_front(t7489).
+hazard_right(t7489).
+hazard_back(t7489).
+hazard_left(t7489).
+act_front(t7489).
+0.000::unsafe_next(t7489).
+
+hazard_front(t7495).
+hazard_right(t7495).
+hazard_back(t7495).
+hazard_left(t7495).
+act_front(t7495).
+0.000::unsafe_next(t7495).
+
+hazard_front(t7500).
+hazard_right(t7500).
+hazard_back(t7500).
+hazard_left(t7500).
+act_back(t7500).
+0.000::unsafe_next(t7500).
+
+hazard_front(t7501).
+hazard_right(t7501).
+hazard_back(t7501).
+hazard_left(t7501).
+act_right(t7501).
+0.000::unsafe_next(t7501).
+
+hazard_front(t7504).
+hazard_right(t7504).
+hazard_back(t7504).
+hazard_left(t7504).
+act_front(t7504).
+0.000::unsafe_next(t7504).
+
+hazard_front(t7507).
+hazard_right(t7507).
+hazard_back(t7507).
+hazard_left(t7507).
+act_right(t7507).
+0.000::unsafe_next(t7507).
+
+hazard_front(t7511).
+hazard_right(t7511).
+hazard_back(t7511).
+hazard_left(t7511).
+act_front(t7511).
+0.000::unsafe_next(t7511).
+
+hazard_front(t7512).
+hazard_right(t7512).
+hazard_back(t7512).
+hazard_left(t7512).
+act_right(t7512).
+0.000::unsafe_next(t7512).
+
+hazard_front(t7525).
+hazard_right(t7525).
+hazard_back(t7525).
+hazard_left(t7525).
+act_right(t7525).
+0.000::unsafe_next(t7525).
+
+hazard_front(t7528).
+hazard_right(t7528).
+hazard_back(t7528).
+hazard_left(t7528).
+act_right(t7528).
+0.000::unsafe_next(t7528).
+
+hazard_front(t7529).
+hazard_right(t7529).
+hazard_back(t7529).
+hazard_left(t7529).
+act_front(t7529).
+0.000::unsafe_next(t7529).
+
+hazard_front(t7537).
+hazard_right(t7537).
+hazard_back(t7537).
+hazard_left(t7537).
+act_back(t7537).
+0.000::unsafe_next(t7537).
+
+hazard_front(t7538).
+hazard_right(t7538).
+hazard_back(t7538).
+hazard_left(t7538).
+act_right(t7538).
+0.000::unsafe_next(t7538).
+
+hazard_front(t7539).
+hazard_right(t7539).
+hazard_back(t7539).
+hazard_left(t7539).
+act_back(t7539).
+0.000::unsafe_next(t7539).
+
+hazard_front(t7542).
+hazard_right(t7542).
+hazard_back(t7542).
+hazard_left(t7542).
+act_back(t7542).
+0.000::unsafe_next(t7542).
+
+hazard_front(t7543).
+hazard_right(t7543).
+hazard_back(t7543).
+hazard_left(t7543).
+act_back(t7543).
+0.000::unsafe_next(t7543).
+
+hazard_front(t7553).
+hazard_right(t7553).
+hazard_back(t7553).
+hazard_left(t7553).
+act_back(t7553).
+0.000::unsafe_next(t7553).
+
+hazard_front(t7555).
+hazard_right(t7555).
+hazard_back(t7555).
+hazard_left(t7555).
+act_right(t7555).
+0.000::unsafe_next(t7555).
+
+hazard_front(t7556).
+hazard_right(t7556).
+hazard_back(t7556).
+hazard_left(t7556).
+act_front(t7556).
+0.000::unsafe_next(t7556).
+
+hazard_front(t7562).
+hazard_right(t7562).
+hazard_back(t7562).
+hazard_left(t7562).
+act_front(t7562).
+0.000::unsafe_next(t7562).
+
+hazard_front(t7570).
+hazard_right(t7570).
+hazard_back(t7570).
+hazard_left(t7570).
+act_right(t7570).
+0.000::unsafe_next(t7570).
+
+hazard_front(t7574).
+hazard_right(t7574).
+hazard_back(t7574).
+hazard_left(t7574).
+act_front(t7574).
+0.000::unsafe_next(t7574).
+
+hazard_front(t7580).
+hazard_right(t7580).
+hazard_back(t7580).
+hazard_left(t7580).
+act_front(t7580).
+0.000::unsafe_next(t7580).
+
+hazard_front(t7585).
+hazard_right(t7585).
+hazard_back(t7585).
+hazard_left(t7585).
+act_front(t7585).
+0.000::unsafe_next(t7585).
+
+hazard_front(t7586).
+hazard_right(t7586).
+hazard_back(t7586).
+hazard_left(t7586).
+act_back(t7586).
+0.000::unsafe_next(t7586).
+
+hazard_front(t7593).
+hazard_right(t7593).
+hazard_back(t7593).
+hazard_left(t7593).
+act_front(t7593).
+0.000::unsafe_next(t7593).
+
+hazard_front(t7594).
+hazard_right(t7594).
+hazard_back(t7594).
+hazard_left(t7594).
+act_back(t7594).
+0.000::unsafe_next(t7594).
+
+hazard_front(t7598).
+hazard_right(t7598).
+hazard_back(t7598).
+hazard_left(t7598).
+act_right(t7598).
+0.000::unsafe_next(t7598).
+
+hazard_front(t7599).
+hazard_right(t7599).
+hazard_back(t7599).
+hazard_left(t7599).
+act_front(t7599).
+0.000::unsafe_next(t7599).
+
+hazard_front(t7600).
+hazard_right(t7600).
+hazard_back(t7600).
+hazard_left(t7600).
+act_back(t7600).
+0.000::unsafe_next(t7600).
+
+hazard_front(t7601).
+hazard_right(t7601).
+hazard_back(t7601).
+hazard_left(t7601).
+act_right(t7601).
+0.000::unsafe_next(t7601).
+
+hazard_front(t7603).
+hazard_right(t7603).
+hazard_back(t7603).
+hazard_left(t7603).
+act_front(t7603).
+0.000::unsafe_next(t7603).
+
+hazard_front(t7606).
+hazard_right(t7606).
+hazard_back(t7606).
+hazard_left(t7606).
+act_back(t7606).
+0.000::unsafe_next(t7606).
+
+hazard_front(t7610).
+hazard_right(t7610).
+hazard_back(t7610).
+hazard_left(t7610).
+act_right(t7610).
+0.000::unsafe_next(t7610).
+
+hazard_front(t7612).
+hazard_right(t7612).
+hazard_back(t7612).
+hazard_left(t7612).
+act_right(t7612).
+0.000::unsafe_next(t7612).
+
+hazard_front(t7616).
+hazard_right(t7616).
+hazard_back(t7616).
+hazard_left(t7616).
+act_front(t7616).
+0.000::unsafe_next(t7616).
+
+hazard_front(t7617).
+hazard_right(t7617).
+hazard_back(t7617).
+hazard_left(t7617).
+act_right(t7617).
+0.000::unsafe_next(t7617).
+
+hazard_front(t7623).
+hazard_right(t7623).
+hazard_back(t7623).
+hazard_left(t7623).
+act_right(t7623).
+0.000::unsafe_next(t7623).
+
+hazard_front(t7625).
+hazard_right(t7625).
+hazard_back(t7625).
+hazard_left(t7625).
+act_right(t7625).
+0.000::unsafe_next(t7625).
+
+hazard_front(t7627).
+hazard_right(t7627).
+hazard_back(t7627).
+hazard_left(t7627).
+act_back(t7627).
+0.000::unsafe_next(t7627).
+
+hazard_front(t7628).
+hazard_right(t7628).
+hazard_back(t7628).
+hazard_left(t7628).
+act_front(t7628).
+0.000::unsafe_next(t7628).
+
+hazard_front(t7630).
+hazard_right(t7630).
+hazard_back(t7630).
+hazard_left(t7630).
+act_right(t7630).
+0.000::unsafe_next(t7630).
+
+hazard_front(t7642).
+hazard_right(t7642).
+hazard_back(t7642).
+hazard_left(t7642).
+act_front(t7642).
+0.000::unsafe_next(t7642).
+
+hazard_front(t7644).
+hazard_right(t7644).
+hazard_back(t7644).
+hazard_left(t7644).
+act_back(t7644).
+0.000::unsafe_next(t7644).
+
+hazard_front(t7646).
+hazard_right(t7646).
+hazard_back(t7646).
+hazard_left(t7646).
+act_back(t7646).
+0.000::unsafe_next(t7646).
+
+hazard_front(t7647).
+hazard_right(t7647).
+hazard_back(t7647).
+hazard_left(t7647).
+act_front(t7647).
+0.000::unsafe_next(t7647).
+
+hazard_front(t7648).
+hazard_right(t7648).
+hazard_back(t7648).
+hazard_left(t7648).
+act_front(t7648).
+0.000::unsafe_next(t7648).
+
+hazard_front(t7653).
+hazard_right(t7653).
+hazard_back(t7653).
+hazard_left(t7653).
+act_back(t7653).
+0.000::unsafe_next(t7653).
+
+hazard_front(t7660).
+hazard_right(t7660).
+hazard_back(t7660).
+hazard_left(t7660).
+act_right(t7660).
+0.000::unsafe_next(t7660).
+
+hazard_front(t7666).
+hazard_right(t7666).
+hazard_back(t7666).
+hazard_left(t7666).
+act_right(t7666).
+0.000::unsafe_next(t7666).
+
+hazard_front(t7670).
+hazard_right(t7670).
+hazard_back(t7670).
+hazard_left(t7670).
+act_back(t7670).
+0.000::unsafe_next(t7670).
+
+hazard_front(t7678).
+hazard_right(t7678).
+hazard_back(t7678).
+hazard_left(t7678).
+act_front(t7678).
+0.000::unsafe_next(t7678).
+
+hazard_front(t7680).
+hazard_right(t7680).
+hazard_back(t7680).
+hazard_left(t7680).
+act_right(t7680).
+0.000::unsafe_next(t7680).
+
+hazard_front(t7681).
+hazard_right(t7681).
+hazard_back(t7681).
+hazard_left(t7681).
+act_front(t7681).
+0.000::unsafe_next(t7681).
+
+hazard_front(t7683).
+hazard_right(t7683).
+hazard_back(t7683).
+hazard_left(t7683).
+act_back(t7683).
+0.000::unsafe_next(t7683).
+
+hazard_front(t7693).
+hazard_right(t7693).
+hazard_back(t7693).
+hazard_left(t7693).
+act_right(t7693).
+0.000::unsafe_next(t7693).
+
+hazard_front(t7699).
+hazard_right(t7699).
+hazard_back(t7699).
+hazard_left(t7699).
+act_right(t7699).
+0.000::unsafe_next(t7699).
+
+hazard_front(t7704).
+hazard_right(t7704).
+hazard_back(t7704).
+hazard_left(t7704).
+act_right(t7704).
+0.000::unsafe_next(t7704).
+
+hazard_front(t7707).
+hazard_right(t7707).
+hazard_back(t7707).
+hazard_left(t7707).
+act_front(t7707).
+0.000::unsafe_next(t7707).
+
+hazard_front(t7709).
+hazard_right(t7709).
+hazard_back(t7709).
+hazard_left(t7709).
+act_front(t7709).
+0.000::unsafe_next(t7709).
+
+hazard_front(t7710).
+hazard_right(t7710).
+hazard_back(t7710).
+hazard_left(t7710).
+act_front(t7710).
+0.000::unsafe_next(t7710).
+
+hazard_front(t7711).
+hazard_right(t7711).
+hazard_back(t7711).
+hazard_left(t7711).
+act_right(t7711).
+0.000::unsafe_next(t7711).
+
+hazard_front(t7716).
+hazard_right(t7716).
+hazard_back(t7716).
+hazard_left(t7716).
+act_front(t7716).
+0.000::unsafe_next(t7716).
+
+hazard_front(t7717).
+hazard_right(t7717).
+hazard_back(t7717).
+hazard_left(t7717).
+act_back(t7717).
+0.000::unsafe_next(t7717).
+
+hazard_right(t7721).
+hazard_back(t7721).
+hazard_left(t7721).
+act_front(t7721).
+0.000::unsafe_next(t7721).
+
+hazard_right(t7722).
+hazard_back(t7722).
+hazard_left(t7722).
+act_back(t7722).
+0.000::unsafe_next(t7722).
+
+hazard_right(t7723).
+hazard_back(t7723).
+hazard_left(t7723).
+act_front(t7723).
+0.000::unsafe_next(t7723).
+
+hazard_right(t7727).
+hazard_back(t7727).
+hazard_left(t7727).
+act_front(t7727).
+0.000::unsafe_next(t7727).
+
+hazard_front(t7728).
+hazard_right(t7728).
+hazard_back(t7728).
+hazard_left(t7728).
+act_back(t7728).
+0.000::unsafe_next(t7728).
+
+hazard_front(t7734).
+hazard_right(t7734).
+hazard_back(t7734).
+hazard_left(t7734).
+act_back(t7734).
+0.000::unsafe_next(t7734).
+
+hazard_front(t7737).
+hazard_right(t7737).
+hazard_back(t7737).
+hazard_left(t7737).
+act_right(t7737).
+0.000::unsafe_next(t7737).
+
+hazard_front(t7738).
+hazard_right(t7738).
+hazard_back(t7738).
+hazard_left(t7738).
+act_front(t7738).
+0.000::unsafe_next(t7738).
+
+hazard_front(t7740).
+hazard_right(t7740).
+hazard_back(t7740).
+hazard_left(t7740).
+act_front(t7740).
+0.000::unsafe_next(t7740).
+
+hazard_front(t7741).
+hazard_right(t7741).
+hazard_back(t7741).
+act_back(t7741).
+0.000::unsafe_next(t7741).
+
+hazard_front(t7742).
+hazard_right(t7742).
+hazard_back(t7742).
+act_front(t7742).
+0.000::unsafe_next(t7742).
+
+hazard_front(t7743).
+hazard_right(t7743).
+hazard_back(t7743).
+act_front(t7743).
+0.000::unsafe_next(t7743).
+
+hazard_front(t7746).
+hazard_right(t7746).
+hazard_back(t7746).
+act_back(t7746).
+0.000::unsafe_next(t7746).
+
+hazard_front(t7753).
+hazard_right(t7753).
+hazard_back(t7753).
+hazard_left(t7753).
+act_right(t7753).
+0.000::unsafe_next(t7753).
+
+hazard_front(t7762).
+hazard_right(t7762).
+hazard_back(t7762).
+hazard_left(t7762).
+act_back(t7762).
+0.000::unsafe_next(t7762).
+
+hazard_right(t7765).
+hazard_back(t7765).
+hazard_left(t7765).
+act_right(t7765).
+0.000::unsafe_next(t7765).
+
+hazard_right(t7768).
+hazard_back(t7768).
+hazard_left(t7768).
+act_front(t7768).
+0.000::unsafe_next(t7768).
+
+hazard_front(t7777).
+hazard_right(t7777).
+hazard_back(t7777).
+act_right(t7777).
+0.000::unsafe_next(t7777).
+
+hazard_front(t7781).
+hazard_right(t7781).
+hazard_back(t7781).
+act_front(t7781).
+0.000::unsafe_next(t7781).
+
+hazard_front(t7782).
+hazard_right(t7782).
+hazard_back(t7782).
+act_front(t7782).
+0.000::unsafe_next(t7782).
+
+hazard_front(t7785).
+hazard_right(t7785).
+hazard_back(t7785).
+act_back(t7785).
+0.000::unsafe_next(t7785).
+
+hazard_front(t7793).
+hazard_right(t7793).
+hazard_back(t7793).
+act_front(t7793).
+0.000::unsafe_next(t7793).
+
+hazard_front(t7796).
+hazard_right(t7796).
+hazard_back(t7796).
+act_front(t7796).
+0.000::unsafe_next(t7796).
+
+hazard_front(t7797).
+hazard_right(t7797).
+hazard_back(t7797).
+act_front(t7797).
+0.000::unsafe_next(t7797).
+
+hazard_front(t7798).
+hazard_right(t7798).
+hazard_back(t7798).
+act_right(t7798).
+0.000::unsafe_next(t7798).
+
+hazard_front(t7799).
+hazard_right(t7799).
+hazard_back(t7799).
+act_right(t7799).
+0.000::unsafe_next(t7799).
+
+hazard_front(t7807).
+hazard_right(t7807).
+hazard_back(t7807).
+act_front(t7807).
+0.000::unsafe_next(t7807).
+
+hazard_front(t7815).
+hazard_right(t7815).
+hazard_back(t7815).
+act_front(t7815).
+0.000::unsafe_next(t7815).
+
+hazard_front(t7816).
+hazard_right(t7816).
+hazard_back(t7816).
+act_front(t7816).
+0.000::unsafe_next(t7816).
+
+hazard_front(t7818).
+hazard_right(t7818).
+hazard_back(t7818).
+act_front(t7818).
+0.000::unsafe_next(t7818).
+
+hazard_front(t7829).
+hazard_right(t7829).
+hazard_back(t7829).
+act_front(t7829).
+0.000::unsafe_next(t7829).
+
+hazard_front(t7832).
+hazard_right(t7832).
+hazard_back(t7832).
+act_back(t7832).
+0.000::unsafe_next(t7832).
+
+hazard_front(t7833).
+hazard_right(t7833).
+hazard_back(t7833).
+act_back(t7833).
+0.000::unsafe_next(t7833).
+
+hazard_front(t7837).
+hazard_right(t7837).
+hazard_back(t7837).
+act_right(t7837).
+0.000::unsafe_next(t7837).
+
+hazard_front(t7842).
+hazard_right(t7842).
+hazard_back(t7842).
+act_front(t7842).
+0.000::unsafe_next(t7842).
+
+hazard_front(t7844).
+hazard_right(t7844).
+hazard_back(t7844).
+act_front(t7844).
+0.000::unsafe_next(t7844).
+
+hazard_front(t7845).
+hazard_right(t7845).
+hazard_back(t7845).
+act_right(t7845).
+0.000::unsafe_next(t7845).
+
+hazard_front(t7848).
+hazard_right(t7848).
+hazard_back(t7848).
+act_back(t7848).
+0.000::unsafe_next(t7848).
+
+hazard_front(t7850).
+hazard_right(t7850).
+hazard_back(t7850).
+act_right(t7850).
+0.000::unsafe_next(t7850).
+
+hazard_front(t7851).
+hazard_right(t7851).
+hazard_back(t7851).
+act_right(t7851).
+0.000::unsafe_next(t7851).
+
+hazard_front(t7855).
+hazard_right(t7855).
+hazard_back(t7855).
+act_back(t7855).
+0.000::unsafe_next(t7855).
+
+hazard_front(t7860).
+hazard_right(t7860).
+hazard_back(t7860).
+act_front(t7860).
+0.000::unsafe_next(t7860).
+
+hazard_front(t7861).
+hazard_right(t7861).
+hazard_back(t7861).
+act_front(t7861).
+0.000::unsafe_next(t7861).
+
+hazard_front(t7867).
+hazard_right(t7867).
+hazard_back(t7867).
+act_front(t7867).
+0.000::unsafe_next(t7867).
+
+hazard_front(t7868).
+hazard_right(t7868).
+hazard_back(t7868).
+act_back(t7868).
+0.000::unsafe_next(t7868).
+
+hazard_front(t7869).
+hazard_right(t7869).
+hazard_back(t7869).
+act_front(t7869).
+0.000::unsafe_next(t7869).
+
+hazard_front(t7870).
+hazard_right(t7870).
+hazard_back(t7870).
+act_back(t7870).
+0.000::unsafe_next(t7870).
+
+hazard_front(t7875).
+hazard_right(t7875).
+hazard_back(t7875).
+act_front(t7875).
+0.000::unsafe_next(t7875).
+
+hazard_front(t7877).
+hazard_right(t7877).
+act_front(t7877).
+0.000::unsafe_next(t7877).
+
+hazard_front(t7879).
+hazard_right(t7879).
+act_right(t7879).
+0.000::unsafe_next(t7879).
+
+hazard_front(t7885).
+hazard_right(t7885).
+hazard_back(t7885).
+act_right(t7885).
+0.000::unsafe_next(t7885).
+
+hazard_front(t7886).
+hazard_right(t7886).
+hazard_back(t7886).
+act_right(t7886).
+0.000::unsafe_next(t7886).
+
+hazard_front(t7894).
+hazard_right(t7894).
+hazard_back(t7894).
+act_front(t7894).
+0.000::unsafe_next(t7894).
+
+hazard_front(t7897).
+hazard_right(t7897).
+hazard_back(t7897).
+act_back(t7897).
+0.000::unsafe_next(t7897).
+
+hazard_front(t7898).
+hazard_right(t7898).
+hazard_back(t7898).
+act_right(t7898).
+0.000::unsafe_next(t7898).
+
+hazard_front(t7900).
+hazard_right(t7900).
+hazard_back(t7900).
+act_back(t7900).
+0.000::unsafe_next(t7900).
+
+hazard_front(t7901).
+hazard_right(t7901).
+hazard_back(t7901).
+act_front(t7901).
+0.000::unsafe_next(t7901).
+
+hazard_front(t7905).
+hazard_right(t7905).
+hazard_back(t7905).
+act_front(t7905).
+0.000::unsafe_next(t7905).
+
+hazard_front(t7908).
+hazard_right(t7908).
+hazard_back(t7908).
+act_front(t7908).
+0.000::unsafe_next(t7908).
+
+hazard_front(t7909).
+hazard_right(t7909).
+hazard_back(t7909).
+act_back(t7909).
+0.000::unsafe_next(t7909).
+
+hazard_front(t7917).
+hazard_right(t7917).
+hazard_back(t7917).
+act_back(t7917).
+0.000::unsafe_next(t7917).
+
+hazard_front(t7920).
+hazard_right(t7920).
+hazard_back(t7920).
+act_back(t7920).
+0.000::unsafe_next(t7920).
+
+hazard_front(t7923).
+hazard_right(t7923).
+hazard_back(t7923).
+act_front(t7923).
+0.000::unsafe_next(t7923).
+
+hazard_front(t7924).
+hazard_right(t7924).
+hazard_back(t7924).
+act_front(t7924).
+0.000::unsafe_next(t7924).
+
+hazard_front(t7925).
+hazard_right(t7925).
+hazard_back(t7925).
+act_back(t7925).
+0.000::unsafe_next(t7925).
+
+hazard_front(t7930).
+hazard_right(t7930).
+act_back(t7930).
+0.000::unsafe_next(t7930).
+
+hazard_front(t7931).
+hazard_right(t7931).
+act_front(t7931).
+0.000::unsafe_next(t7931).
+
+hazard_front(t7933).
+hazard_right(t7933).
+act_front(t7933).
+0.000::unsafe_next(t7933).
+
+hazard_front(t7938).
+hazard_right(t7938).
+act_back(t7938).
+0.000::unsafe_next(t7938).
+
+hazard_front(t7939).
+hazard_right(t7939).
+act_back(t7939).
+0.000::unsafe_next(t7939).
+
+hazard_front(t7944).
+hazard_right(t7944).
+act_front(t7944).
+0.000::unsafe_next(t7944).
+
+hazard_front(t7950).
+hazard_right(t7950).
+hazard_left(t7950).
+act_back(t7950).
+0.000::unsafe_next(t7950).
+
+hazard_front(t7953).
+hazard_right(t7953).
+hazard_left(t7953).
+act_back(t7953).
+0.000::unsafe_next(t7953).
+
+hazard_front(t7958).
+hazard_right(t7958).
+hazard_left(t7958).
+act_front(t7958).
+0.000::unsafe_next(t7958).
+
+hazard_front(t7960).
+hazard_right(t7960).
+hazard_left(t7960).
+act_front(t7960).
+0.000::unsafe_next(t7960).
+
+hazard_front(t7961).
+hazard_right(t7961).
+hazard_left(t7961).
+act_front(t7961).
+0.000::unsafe_next(t7961).
+
+hazard_front(t7963).
+hazard_right(t7963).
+hazard_left(t7963).
+act_front(t7963).
+0.000::unsafe_next(t7963).
+
+hazard_front(t7965).
+hazard_right(t7965).
+hazard_left(t7965).
+act_front(t7965).
+0.000::unsafe_next(t7965).
+
+hazard_front(t7966).
+hazard_right(t7966).
+hazard_left(t7966).
+act_back(t7966).
+0.000::unsafe_next(t7966).
+
+hazard_front(t7967).
+hazard_right(t7967).
+hazard_left(t7967).
+act_right(t7967).
+0.000::unsafe_next(t7967).
+
+hazard_front(t7969).
+hazard_right(t7969).
+hazard_left(t7969).
+act_front(t7969).
+0.000::unsafe_next(t7969).
+
+hazard_front(t7971).
+hazard_right(t7971).
+hazard_left(t7971).
+act_right(t7971).
+0.000::unsafe_next(t7971).
+
+hazard_front(t7979).
+hazard_right(t7979).
+hazard_left(t7979).
+act_front(t7979).
+0.000::unsafe_next(t7979).
+
+hazard_front(t7981).
+hazard_right(t7981).
+hazard_left(t7981).
+act_right(t7981).
+0.000::unsafe_next(t7981).
+
+hazard_front(t7989).
+hazard_right(t7989).
+hazard_left(t7989).
+act_front(t7989).
+0.000::unsafe_next(t7989).
+
+hazard_front(t7990).
+hazard_right(t7990).
+hazard_left(t7990).
+act_front(t7990).
+0.000::unsafe_next(t7990).
+
+hazard_front(t7992).
+hazard_right(t7992).
+hazard_left(t7992).
+act_back(t7992).
+0.000::unsafe_next(t7992).

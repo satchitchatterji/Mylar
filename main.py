@@ -4,7 +4,7 @@ import numpy as np
 from mppo import MylarPPO
 
 env = safety_gymnasium.make("SafetyPointGoal1-v0")
-observation, info = env.reset(seed=0)
+observation, info = env.reset()
 
 # Specific Observation Space
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -49,7 +49,8 @@ def sensor_wrapper(observation):
             hazard_lidar = obs[-32:-16]
             vase_lidar = observation[:, -16:]
             hazard_sensors = sensor_wrapper_16(hazard_lidar)
-            vase_sensors = sensor_wrapper_16(vase_lidar)
+            # vase_sensors = sensor_wrapper_16(vase_lidar)
+            vase_sensors = []
             sensor_values.append(torch.Tensor(hazard_sensors+vase_sensors))
          return torch.stack(sensor_values)
       
@@ -57,7 +58,8 @@ def sensor_wrapper(observation):
          hazard_lidar = observation[-32:-16]
          vase_lidar = observation[-16:]
          hazard_sensors = sensor_wrapper_16(hazard_lidar)
-         vase_sensors = sensor_wrapper_16(vase_lidar)
+         # vase_sensors = sensor_wrapper_16(vase_lidar)
+         vase_sensors = []
          # print(hazard_sensors+vase_sensors)
          return torch.Tensor(hazard_sensors+vase_sensors)
       
@@ -99,7 +101,7 @@ def action_wrapper(action):
 
 sh_params = {
     "config_folder": '.',
-    "num_sensors": 8,  # 16 hazards + 16 vases
+    "num_sensors": 4,  # 16 hazards + 16 vases
     "num_actions": 4,
     "differentiable": True,
     "shield_program": "shield.pl",
